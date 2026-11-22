@@ -1,0 +1,57 @@
+# Maintaining the public site and builds
+
+Notes for the person who runs this repository (not for users). Users: see [README.md](README.md) and the site https://nnpopov.github.io/audio_agent/.
+
+
+## Layout
+
+| Path | What |
+|---|---|
+| `index.html`, `en/`, `ru/`, `guide/`, `privacy/`, `terms/`, `assets/` | The generated site (GitHub Pages serves the branch root). Do not edit by hand. |
+| `site/config.json` | `contact`, `repo` (`OWNER/REPO` on GitHub), `appName`, minimum Android, how many alpha builds to keep |
+| `site/i18n/<code>.json` | All home page texts of one language and the path of its policy file |
+| `site/guide/<code>.md` | The user guide of that language, written for this site (not copied from the app repository). Extra Markdown for it: `1. ` numbered lists, `## Title {#id}` headings (the id gives the anchor and a table of contents entry; the check expects the ids `need`, `install`, `keys`, `first`, `hands-free`, `say`, `places`, `update`, `trouble`, `report`), a `[[toc]]` line (where the table of contents goes), `> text` (an alpha notice box) and the placeholders `[[androidmin]]`, `[[repo]]`, `[[contact]]` (filled from `site/config.json`). Keep it true to the app: check button names against the app's strings and `docs/commands.md` in the app repository |
+| `site/policy/<code>.md` | The privacy policy of that language (copied from the app repo, `docs/privacy-policy*.md`) |
+| `LICENSE`, `TERMS.md`, `TERMS.<code>.md` | Licensing notice (CC BY 4.0 for the site text and the policy) and the terms of the app builds. The `TERMS` files are also the source of the `terms/` pages (path in `termsFile` of the i18n json) |
+| `site/templates/` | HTML templates: `layout`, `home`, `policy`, `chooser` |
+| `site/assets/style.css` | The one stylesheet (light and dark, no external fonts) |
+| `releases.json` | The published builds, newest first |
+| `builds/` | Local APKs, not committed (see `.gitignore`) |
+| `tools/build-site.ps1` | Generates the site |
+| `tools/update-releases.ps1` | Adds a build to `releases.json`, applies retention, rebuilds, prints the commands |
+| `tools/check-site.ps1` | Checks the generated pages |
+
+All scripts run in Windows PowerShell 5.1 and PowerShell 7 and need nothing installed.
+
+## Commands
+
+```
+powershell -File tools/build-site.ps1       # regenerate the pages after any change in site/ or releases.json
+powershell -File tools/check-site.ps1       # structure check: headings, skip link, language, policy and guide links, guide table of contents and sections, no third-party requests
+```
+
+Before the first publish: set `repo` and `contact` in `site/config.json`, run the build, commit. On GitHub: Settings > Pages > deploy from branch `main`, folder `/ (root)`. `.nojekyll` is already there.
+
+## Publishing a build (GitHub Releases)
+
+APK files are not committed to git. Each build is a GitHub Release of its own (flag "pre-release" for alpha), and `releases.json` lists them.
+
+1. In the app repository build the share release APK (`assembleShareRelease`; it must not contain the optional keys).
+2. In the app repository run `powershell -File tools/publish-public-build.ps1 -Apk app/app/build/outputs/apk/share/release/app-share-release.apk -Notes "short note"` (add `-Stable` only when you decide that a build is stable; `-Version` is optional). It refuses an APK that contains secrets, copies the APK to `builds/`, updates `releases.json`, prunes, rebuilds the site and prints the `gh release create ...` command.
+3. Run the printed `gh release create` command yourself, then commit and push the site (the script prints that too). Nothing is pushed or created by the scripts.
+
+Home pages read `releases.json` in the browser to show the latest alpha and the table (progressive enhancement); without JavaScript they show the same table that the build script wrote into the page.
+
+Retention: the newest 3 alpha builds and every stable build are kept. The script removes older entries from `releases.json` and prints the `gh release delete <tag> --cleanup-tag` commands for them; it never deletes anything itself. Change the number in `site/config.json` (`alphaKeep`).
+
+## Adding a language
+
+Planned, not yet available (no placeholder pages are published): Chinese (`zh`), Ukrainian (`uk`), German (`de`), Spanish (`es`), French (`fr`).
+
+For a language code `xx`:
+
+1. Copy `site/i18n/en.json` to `site/i18n/xx.json`. Translate every string in `t` and `tableLabel`, `policyBack`, `policyNotice` (the line that says the English version is the original, translations are for reference), set `nativeName`, `dir` (`ltr` or `rtl`), `policyFile` (`site/policy/xx.md`) and `policyContactPlaceholder` (the placeholder sentence of that translation, so it can be replaced when the contact is set), `termsFile` (`TERMS.xx.md`), `termsNotice`, and the strings `termsLink`, `licenseLink`, `downloadAccept`, `licenseNote`, and the guide and home strings `guideLink`, `guideToc`, `guideDescription`, `installText`, `useHeading`, `useText`, `use`, `useGuideText`.
+2. Add the translated terms as `TERMS.xx.md`, the translated policy as `site/policy/xx.md` and the translated guide as `site/guide/xx.md` (same headings and ids as the English one). It uses the same Markdown subset as the English one: `#`, `##`, `###` headings, paragraphs, `- ` lists, pipe tables, `**bold**`, `[text](url)` and bare URLs. A link to `privacy-policy.xx.md` becomes a link to the language page.
+3. Run `tools/build-site.ps1` and `tools/check-site.ps1`. Every page then links the new language, and `privacy/` offers it to browsers that prefer it. Commit.
+
+A language is published only when all four files exist; do not add one json without its policy.
