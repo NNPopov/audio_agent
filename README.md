@@ -6,6 +6,7 @@ A voice assistant for Android that works with one button, a Bluetooth remote con
 
 What it can do, all by voice:
 
+- One button is enough: you can talk to the assistant with a single button on a remote, a switch or a key (start a recording, stop, replay the answer). With more buttons you can give each one a function, and every button can do up to six different things (short or long press, once, twice or three times).
 - Long conversations that keep their context.
 - Documents: attach a text or Markdown document from the clipboard or with Share, then ask about it.
 - Music: play by artist, album or track; pause, next, previous, rewind and forward, volume, playlists.
