@@ -3,6 +3,8 @@
   "nativeName": "English",
   "dir": "ltr",
   "policyFile": "site/policy/en.md",
+  "termsFile": "TERMS.md",
+  "termsNotice": "",
   "policyContactPlaceholder": "[contact address: to be set before publishing]",
   "policyNotice": "",
   "policyBack": "Back to the home page",
@@ -69,6 +71,9 @@
     "issuesLink": "Report an issue on GitHub",
     "contactLabel": "Contact address:",
     "footer": "Audio Agent is an alpha-stage project. No tracking on this site.",
-    "licenseNote": "License: to be decided."
+    "licenseNote": "The site text and the privacy policy are CC BY 4.0. The app builds are all rights reserved, free for personal use. The source code is not published.",
+    "termsLink": "Terms",
+    "licenseLink": "License",
+    "downloadAccept": "By downloading you accept the %TERMS%."
   }
 }

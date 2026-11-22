@@ -64,6 +64,7 @@
 <section aria-labelledby="download-h" id="download" data-repo="NNPopov/audio_agent" data-lang="ru">
 <h2 id="download-h">Скачать</h2>
 <p>Нужен Android 12 или новее. Приложения нет в Google Play. Вы устанавливаете файл APK, скачанный со страницы GitHub Releases.</p>
+<p>Скачивая, вы принимаете <a href="../terms/ru/">Условия</a>.</p>
 <h3>Последняя альфа-сборка</h3>
 <div id="latest-alpha"><p>Альфа-сборок пока не опубликовано.</p></div>
 <h3>Последняя стабильная сборка</h3>
@@ -98,10 +99,10 @@
 <p>О проблемах сообщайте на странице обращений проекта или пишите по контактному адресу.</p>
 <p><a href="https://github.com/NNPopov/audio_agent/issues">Сообщить о проблеме на GitHub</a></p>
 <p>Контактный адрес: nn.popov@gmail.com</p>
-<p>Лицензия: будет определена.</p>
+<p>Текст сайта и политика конфиденциальности — CC BY 4.0. Сборки приложения — все права защищены, бесплатно для личного использования. Исходный код не опубликован. <a href="../terms/ru/">Условия</a> | <a href="https://github.com/NNPopov/audio_agent/blob/main/LICENSE">Лицензия</a></p>
 </section>
 
-<script type="application/json" id="i18n-data">{"tableLabel":"Таблица, при необходимости прокрутите вбок","downloadLink":"Скачать %FILE% (%SIZE%)","releasePage":"Страница выпуска и заметки","noAlpha":"Альфа-сборок пока не опубликовано.","noStable":"Стабильной сборки пока нет. Всё пока в альфа-версии.","buildsNone":"Сборок пока не опубликовано.","colVersion":"Версия","colDate":"Дата","colChannel":"Канал","colSize":"Размер","colSha":"SHA-256","colNotes":"Заметки","colFile":"Скачать","chAlpha":"альфа","chStable":"стабильная"}</script>
+<script type="application/json" id="i18n-data">{"tableLabel":"Таблица, при необходимости прокрутите вбок","termsUrl":"../terms/ru/","termsLink":"Условия","downloadLink":"Скачать %FILE% (%SIZE%)","releasePage":"Страница выпуска и заметки","noAlpha":"Альфа-сборок пока не опубликовано.","noStable":"Стабильной сборки пока нет. Всё пока в альфа-версии.","buildsNone":"Сборок пока не опубликовано.","colVersion":"Версия","colDate":"Дата","colChannel":"Канал","colSize":"Размер","colSha":"SHA-256","colNotes":"Заметки","colFile":"Скачать","chAlpha":"альфа","chStable":"стабильная"}</script>
 <script>
 (function () {
   // Progressive enhancement: refresh the build list from releases.json. The page is complete without it.
@@ -117,7 +118,7 @@
     if (!r) return '<p>' + esc(none) + '</p>';
     return '<p><strong>' + esc(r.version) + '</strong>, ' + esc(r.date) + '</p>' +
       '<p><a class="button" href="' + esc(dl(r)) + '">' + esc(d.downloadLink.replace('%FILE%', r.file).replace('%SIZE%', size(r.size))) + '</a></p>' +
-      '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a></p>';
+      '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a> | <a href="' + esc(d.termsUrl) + '">' + esc(d.termsLink) + '</a></p>';
   }
   function table(list) {
     if (!list.length) return '<p>' + esc(d.buildsNone) + '</p>';
@@ -126,7 +127,7 @@
     h += '</tr></thead><tbody>';
     list.forEach(function (r) {
       h += '<tr><td>' + esc(r.version) + '</td><td>' + esc(r.date) + '</td><td>' + esc(r.channel === 'stable' ? d.chStable : d.chAlpha) + '</td><td>' + size(r.size) +
-        '</td><td><span class="sha">' + esc(r.sha256) + '</span></td><td>' + esc(r.notes || '') + '</td><td><a href="' + esc(dl(r)) + '">' + esc(r.file) + '</a></td></tr>';
+        '</td><td><span class="sha">' + esc(r.sha256) + '</span></td><td>' + esc(r.notes || '') + '</td><td><a href="' + esc(dl(r)) + '">' + esc(r.file) + '</a> (<a href="' + esc(d.termsUrl) + '">' + esc(d.termsLink) + '</a>)</td></tr>';
     });
     return h + '</tbody></table></div>';
   }
@@ -149,6 +150,7 @@
 <footer class="site">
 <div class="wrap">
 <p>Audio Agent — проект на стадии альфа. На этом сайте нет отслеживания.</p>
+<p class="footlinks"><a href="../terms/ru/">Условия</a> | <a href="https://github.com/NNPopov/audio_agent/blob/main/LICENSE">Лицензия</a></p>
 </div>
 </footer>
 </body>

@@ -31,6 +31,7 @@
 <section aria-labelledby="download-h" id="download" data-repo="{{repo}}" data-lang="{{lang}}">
 <h2 id="download-h">{{downloadHeading}}</h2>
 <p>{{downloadIntro}}</p>
+<p>{{downloadAcceptHtml}}</p>
 <h3>{{latestAlpha}}</h3>
 <div id="latest-alpha">{{latestAlphaHtml}}</div>
 <h3>{{latestStable}}</h3>
@@ -61,7 +62,7 @@
 <p>{{contactText}}</p>
 <p><a href="{{issuesUrl}}">{{issuesLink}}</a></p>
 <p>{{contactLabel}} {{contact}}</p>
-<p>{{licenseNote}}</p>
+<p>{{licenseNote}} <a href="{{termsUrl}}">{{termsLink}}</a> | <a href="{{licenseUrl}}">{{licenseLink}}</a></p>
 </section>
 
 <script type="application/json" id="i18n-data">{{jsData}}</script>
@@ -80,7 +81,7 @@
     if (!r) return '<p>' + esc(none) + '</p>';
     return '<p><strong>' + esc(r.version) + '</strong>, ' + esc(r.date) + '</p>' +
       '<p><a class="button" href="' + esc(dl(r)) + '">' + esc(d.downloadLink.replace('%FILE%', r.file).replace('%SIZE%', size(r.size))) + '</a></p>' +
-      '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a></p>';
+      '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a> | <a href="' + esc(d.termsUrl) + '">' + esc(d.termsLink) + '</a></p>';
   }
   function table(list) {
     if (!list.length) return '<p>' + esc(d.buildsNone) + '</p>';
@@ -89,7 +90,7 @@
     h += '</tr></thead><tbody>';
     list.forEach(function (r) {
       h += '<tr><td>' + esc(r.version) + '</td><td>' + esc(r.date) + '</td><td>' + esc(r.channel === 'stable' ? d.chStable : d.chAlpha) + '</td><td>' + size(r.size) +
-        '</td><td><span class="sha">' + esc(r.sha256) + '</span></td><td>' + esc(r.notes || '') + '</td><td><a href="' + esc(dl(r)) + '">' + esc(r.file) + '</a></td></tr>';
+        '</td><td><span class="sha">' + esc(r.sha256) + '</span></td><td>' + esc(r.notes || '') + '</td><td><a href="' + esc(dl(r)) + '">' + esc(r.file) + '</a> (<a href="' + esc(d.termsUrl) + '">' + esc(d.termsLink) + '</a>)</td></tr>';
     });
     return h + '</tbody></table></div>';
   }

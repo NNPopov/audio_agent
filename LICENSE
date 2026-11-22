@@ -1,0 +1,31 @@
+Audio Agent: licensing notice
+
+1. Website content and privacy policy
+-------------------------------------
+
+The website content and the privacy policy documents in this repository
+(everything except the app binaries) are licensed under the Creative Commons
+Attribution 4.0 International license (CC BY 4.0).
+
+You may share and adapt this material for any purpose, including commercially,
+if you give appropriate credit, link to the license and indicate if changes
+were made.
+
+Attribution: credit "Audio Agent" and link to this repository,
+https://github.com/NNPopov/audio_agent
+
+License summary:    https://creativecommons.org/licenses/by/4.0/
+Full legal code:    https://creativecommons.org/licenses/by/4.0/legalcode
+
+Only the legal code at the address above is the license. This file is a
+notice, not a copy or a paraphrase of it.
+
+2. App builds are NOT under CC BY
+---------------------------------
+
+The Audio Agent app builds (APK files, listed in releases.json and published
+on GitHub Releases) are NOT licensed under CC BY. They are all rights
+reserved, free for personal use, under the terms in TERMS.md (Russian
+translation: TERMS.ru.md).
+
+The source code of the app is not published in this repository.

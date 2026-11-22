@@ -64,6 +64,7 @@
 <section aria-labelledby="download-h" id="download" data-repo="NNPopov/audio_agent" data-lang="en">
 <h2 id="download-h">Download</h2>
 <p>Requires Android 12 or newer. The app is not in Google Play. You install an APK file that you download from GitHub Releases.</p>
+<p>By downloading you accept the <a href="../terms/en/">Terms</a>.</p>
 <h3>Latest alpha build</h3>
 <div id="latest-alpha"><p>No alpha build has been published yet.</p></div>
 <h3>Latest stable build</h3>
@@ -98,10 +99,10 @@
 <p>Report problems on the issues page of the project, or write to the contact address.</p>
 <p><a href="https://github.com/NNPopov/audio_agent/issues">Report an issue on GitHub</a></p>
 <p>Contact address: nn.popov@gmail.com</p>
-<p>License: to be decided.</p>
+<p>The site text and the privacy policy are CC BY 4.0. The app builds are all rights reserved, free for personal use. The source code is not published. <a href="../terms/en/">Terms</a> | <a href="https://github.com/NNPopov/audio_agent/blob/main/LICENSE">License</a></p>
 </section>
 
-<script type="application/json" id="i18n-data">{"tableLabel":"Table, scroll sideways if needed","downloadLink":"Download %FILE% (%SIZE%)","releasePage":"Release page and notes","noAlpha":"No alpha build has been published yet.","noStable":"There is no stable build yet. Everything is alpha.","buildsNone":"No builds have been published yet.","colVersion":"Version","colDate":"Date","colChannel":"Channel","colSize":"Size","colSha":"SHA-256","colNotes":"Notes","colFile":"Download","chAlpha":"alpha","chStable":"stable"}</script>
+<script type="application/json" id="i18n-data">{"tableLabel":"Table, scroll sideways if needed","termsUrl":"../terms/en/","termsLink":"Terms","downloadLink":"Download %FILE% (%SIZE%)","releasePage":"Release page and notes","noAlpha":"No alpha build has been published yet.","noStable":"There is no stable build yet. Everything is alpha.","buildsNone":"No builds have been published yet.","colVersion":"Version","colDate":"Date","colChannel":"Channel","colSize":"Size","colSha":"SHA-256","colNotes":"Notes","colFile":"Download","chAlpha":"alpha","chStable":"stable"}</script>
 <script>
 (function () {
   // Progressive enhancement: refresh the build list from releases.json. The page is complete without it.
@@ -117,7 +118,7 @@
     if (!r) return '<p>' + esc(none) + '</p>';
     return '<p><strong>' + esc(r.version) + '</strong>, ' + esc(r.date) + '</p>' +
       '<p><a class="button" href="' + esc(dl(r)) + '">' + esc(d.downloadLink.replace('%FILE%', r.file).replace('%SIZE%', size(r.size))) + '</a></p>' +
-      '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a></p>';
+      '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a> | <a href="' + esc(d.termsUrl) + '">' + esc(d.termsLink) + '</a></p>';
   }
   function table(list) {
     if (!list.length) return '<p>' + esc(d.buildsNone) + '</p>';
@@ -126,7 +127,7 @@
     h += '</tr></thead><tbody>';
     list.forEach(function (r) {
       h += '<tr><td>' + esc(r.version) + '</td><td>' + esc(r.date) + '</td><td>' + esc(r.channel === 'stable' ? d.chStable : d.chAlpha) + '</td><td>' + size(r.size) +
-        '</td><td><span class="sha">' + esc(r.sha256) + '</span></td><td>' + esc(r.notes || '') + '</td><td><a href="' + esc(dl(r)) + '">' + esc(r.file) + '</a></td></tr>';
+        '</td><td><span class="sha">' + esc(r.sha256) + '</span></td><td>' + esc(r.notes || '') + '</td><td><a href="' + esc(dl(r)) + '">' + esc(r.file) + '</a> (<a href="' + esc(d.termsUrl) + '">' + esc(d.termsLink) + '</a>)</td></tr>';
     });
     return h + '</tbody></table></div>';
   }
@@ -149,6 +150,7 @@
 <footer class="site">
 <div class="wrap">
 <p>Audio Agent is an alpha-stage project. No tracking on this site.</p>
+<p class="footlinks"><a href="../terms/en/">Terms</a> | <a href="https://github.com/NNPopov/audio_agent/blob/main/LICENSE">License</a></p>
 </div>
 </footer>
 </body>

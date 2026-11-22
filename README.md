@@ -24,7 +24,9 @@ Use the Issues page of this repository: <https://github.com/NNPopov/audio_agent/
 
 ## License
 
-To be decided: `LICENSE_PLACEHOLDER`.
+- The website text and the privacy policy in this repository are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (credit "Audio Agent" and link to this repository); see [LICENSE](LICENSE).
+- The app builds (APKs, listed in `releases.json`) are all rights reserved, free for personal use, under the [Terms](TERMS.md) ([по-русски](TERMS.ru.md)). By downloading you accept the Terms.
+- The source code is not published: it lives in a separate private repository. Open-sourcing is a possible later decision.
 
 ---
 
@@ -34,10 +36,11 @@ To be decided: `LICENSE_PLACEHOLDER`.
 
 | Path | What |
 |---|---|
-| `index.html`, `en/`, `ru/`, `privacy/`, `assets/` | The generated site (GitHub Pages serves the branch root). Do not edit by hand. |
+| `index.html`, `en/`, `ru/`, `privacy/`, `terms/`, `assets/` | The generated site (GitHub Pages serves the branch root). Do not edit by hand. |
 | `site/config.json` | `contact`, `repo` (`OWNER/REPO` on GitHub), `appName`, minimum Android, how many alpha builds to keep |
 | `site/i18n/<code>.json` | All home page texts of one language and the path of its policy file |
 | `site/policy/<code>.md` | The privacy policy of that language (copied from the app repo, `docs/privacy-policy*.md`) |
+| `LICENSE`, `TERMS.md`, `TERMS.<code>.md` | Licensing notice (CC BY 4.0 for the site text and the policy) and the terms of the app builds. The `TERMS` files are also the source of the `terms/` pages (path in `termsFile` of the i18n json) |
 | `site/templates/` | HTML templates: `layout`, `home`, `policy`, `chooser` |
 | `site/assets/style.css` | The one stylesheet (light and dark, no external fonts) |
 | `releases.json` | The published builds, newest first |
@@ -75,8 +78,8 @@ Planned, not yet available (no placeholder pages are published): Chinese (`zh`),
 
 For a language code `xx`:
 
-1. Copy `site/i18n/en.json` to `site/i18n/xx.json`. Translate every string in `t` and `tableLabel`, `policyBack`, `policyNotice` (the line that says the English version is the original, translations are for reference), set `nativeName`, `dir` (`ltr` or `rtl`), `policyFile` (`site/policy/xx.md`) and `policyContactPlaceholder` (the placeholder sentence of that translation, so it can be replaced when the contact is set).
-2. Add the translated policy as `site/policy/xx.md`. It uses the same Markdown subset as the English one: `#`, `##`, `###` headings, paragraphs, `- ` lists, pipe tables, `**bold**`, `[text](url)` and bare URLs. A link to `privacy-policy.xx.md` becomes a link to the language page.
+1. Copy `site/i18n/en.json` to `site/i18n/xx.json`. Translate every string in `t` and `tableLabel`, `policyBack`, `policyNotice` (the line that says the English version is the original, translations are for reference), set `nativeName`, `dir` (`ltr` or `rtl`), `policyFile` (`site/policy/xx.md`) and `policyContactPlaceholder` (the placeholder sentence of that translation, so it can be replaced when the contact is set), `termsFile` (`TERMS.xx.md`), `termsNotice`, and the strings `termsLink`, `licenseLink`, `downloadAccept`, `licenseNote`.
+2. Add the translated terms as `TERMS.xx.md` and the translated policy as `site/policy/xx.md`. It uses the same Markdown subset as the English one: `#`, `##`, `###` headings, paragraphs, `- ` lists, pipe tables, `**bold**`, `[text](url)` and bare URLs. A link to `privacy-policy.xx.md` becomes a link to the language page.
 3. Run `tools/build-site.ps1` and `tools/check-site.ps1`. Every page then links the new language, and `privacy/` offers it to browsers that prefer it. Commit.
 
-A language is published only when both files exist; do not add one json without its policy.
+A language is published only when all three files exist; do not add one json without its policy.

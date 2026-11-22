@@ -10,8 +10,8 @@ $codes = @(Get-ChildItem (Join-Path $Root 'site/i18n') -Filter '*.json' | ForEac
 $errors = New-Object System.Collections.ArrayList
 function Fail($page, $msg) { [void]$errors.Add("${page}: $msg") }
 
-$pages = @('index.html', 'privacy/index.html')
-foreach ($c in $codes) { $pages += "$c/index.html"; $pages += "privacy/$c/index.html" }
+$pages = @('index.html', 'privacy/index.html', 'terms/index.html')
+foreach ($c in $codes) { $pages += "$c/index.html"; $pages += "privacy/$c/index.html"; $pages += "terms/$c/index.html" }
 
 foreach ($p in $pages) {
     $full = Join-Path $Root $p
@@ -38,8 +38,18 @@ foreach ($p in $pages) {
         if ($u.EndsWith('/') -or (Test-Path $target -PathType Container)) { $target = Join-Path $target 'index.html' }
         if (-not (Test-Path $target)) { Fail $p "broken link: $u" }
     }
+    # Every page links Terms (own language) and License
+    $tl = 'en'; if ($p -match '^(?:privacy/|terms/)?([a-z]{2,3})/index\.html$') { $tl = $Matches[1] }
+    if ($h -notmatch ('<a href="[^"]*terms/' + $tl + '/">')) { Fail $p "no link to the Terms ($tl)" }
+    if ($h -notmatch 'href="https://github\.com/[^"]+/blob/main/LICENSE"') { Fail $p 'no link to the License' }
+    if ($p -match '^terms/([a-z]{2,3})/index\.html$') {
+        if ($h -notmatch '<h2>') { Fail $p 'terms body missing' }
+        if ($h -match '\*\*|\]\(|^\|') { Fail $p 'unconverted Markdown left in the terms' }
+        if ($h -notmatch 'href="\.\./\.\./privacy/[a-z]{2,3}/"') { Fail $p 'terms do not link the privacy policy' }
+    }
+    if ($p -match '^(index|[a-z]{2,3}/index)\.html$' -and $h -notmatch 'id="download-h"[\s\S]*?href="[^"]*terms/[a-z]{2,3}/"[\s\S]*?id="latest-alpha"') { Fail $p 'download section lacks the Terms line' }
     # Language switch
-    $isChooser = ($p -eq 'privacy/index.html')
+    $isChooser = ($p -eq 'privacy/index.html' -or $p -eq 'terms/index.html')
     foreach ($c in $codes) {
         if ($h -notmatch ('<a href="[^"]*' + $c + '/" lang="' + $c + '" hreflang="' + $c + '"')) { Fail $p "does not link language $c" }
     }
@@ -68,6 +78,7 @@ $files = Get-ChildItem $Root -Recurse -File | Where-Object { $_.FullName -notmat
 foreach ($f in $files) {
     $t = [IO.File]::ReadAllText($f.FullName, [Text.Encoding]::UTF8)
     if ($t -match 'sk-[A-Za-z0-9]{20,}') { Fail $f.Name 'looks like an API key' }
+    if ($f.Name -notin 'check-site.ps1', 'build-site.ps1' -and $t -match '(?i)LICENSE_PLACEHOLDER|CONTACT_PLACEHOLDER|to be decided') { Fail $f.Name 'placeholder text left' }
 }
 
 if ($errors.Count -gt 0) { $errors | ForEach-Object { Write-Output "FAIL $_" }; exit 1 }

@@ -2,9 +2,10 @@
 #   site/config.json          contact placeholder, repo, minimum Android
 #   site/i18n/<code>.json     all UI texts of the home page + the policy file path of one language
 #   site/policy/<code>.md     the privacy policy of that language (Markdown subset, see Convert-Markdown)
+#   TERMS.md, TERMS.<code>.md the terms of use of the app builds (same Markdown subset; path in i18n termsFile)
 #   site/templates/*.html     page templates
 #   releases.json             published builds (written by tools/update-releases.ps1)
-# Output: index.html, <code>/index.html, privacy/index.html, privacy/<code>/index.html, assets/style.css
+# Output: index.html, <code>/index.html, privacy/index.html, privacy/<code>/index.html, terms/index.html, terms/<code>/index.html, assets/style.css
 # Works in Windows PowerShell 5.1 and PowerShell 7. No dependencies. Keep this file ASCII only.
 param()
 $ErrorActionPreference = 'Stop'
@@ -31,8 +32,13 @@ function Convert-Inline($text, $contactReplaced) {
         # links between policy translations: privacy-policy.md, privacy-policy.<code>.md
         $pm = [regex]::Match($url, '^privacy-policy(?:\.([a-z]{2,3}))?\.md$')
         if ($pm.Success) { $code = 'en'; if ($pm.Groups[1].Success) { $code = $pm.Groups[1].Value }; $url = "../$code/" }
+        $tm = [regex]::Match($url, '^TERMS(?:\.([a-z]{2,3}))?\.md$')
+        if ($tm.Success) { $tcode = 'en'; if ($tm.Groups[1].Success) { $tcode = $tm.Groups[1].Value }; $url = "../$tcode/" }
+        $qm = [regex]::Match($url, '^site/policy/([a-z]{2,3})\.md$')
+        if ($qm.Success) { $url = '../../privacy/' + $qm.Groups[1].Value + '/' }
         $label = $m.Groups[1].Value
         if ($pm.Success -and $langs.ContainsKey($code)) { $label = Esc $langs[$code].nativeName }
+        if ($tm.Success -and $langs.ContainsKey($tcode)) { $label = Esc $langs[$tcode].nativeName }
         [void]$tokens.Add('<a href="' + $url + '">' + $label + '</a>')
         return [string][char]1 + ($tokens.Count - 1) + [string][char]2
     })
@@ -127,18 +133,25 @@ $tplChooser = Read-Text (Join-Path $Root 'site/templates/chooser.html')
 $repo = [string]$config.repo
 $contact = Esc $config.contact
 
+function Foot-Vars($code, $prefix) {
+    $t = $langs[$code].t
+    return @{ termsUrl = ($prefix + 'terms/' + $code + '/'); termsLink = (Esc $t.termsLink); licenseUrl = ('https://github.com/' + $repo + '/blob/main/LICENSE'); licenseLink = (Esc $t.licenseLink) }
+}
+function Merge-Vars($a, $b) { foreach ($k in $b.Keys) { $a[$k] = $b[$k] }; return $a }
+function Accept-Html($t, $termsUrl) { return (Esc $t.downloadAccept).Replace('%TERMS%', '<a href="' + $termsUrl + '">' + (Esc $t.termsLink) + '</a>') }
+
 function Fmt-Size($bytes) { return [string]::Format([Globalization.CultureInfo]::InvariantCulture, '{0:0.0} MB', ([double]$bytes / 1MB)) }
 function Dl-Url($r) { return "https://github.com/$repo/releases/download/$($r.tag)/$($r.file)" }
 function Rel-Url($r) { return "https://github.com/$repo/releases/tag/$($r.tag)" }
 
-function Latest-Html($r, $none, $t) {
+function Latest-Html($r, $none, $t, $termsUrl) {
     if (-not $r) { return '<p>' + (Esc $none) + '</p>' }
     $label = $t.downloadLink.Replace('%FILE%', $r.file).Replace('%SIZE%', (Fmt-Size $r.size))
     return ('<p><strong>' + (Esc $r.version) + '</strong>, ' + (Esc $r.date) + '</p>' + "`n" +
         '<p><a class="button" href="' + (Esc (Dl-Url $r)) + '">' + (Esc $label) + '</a></p>' + "`n" +
-        '<p><a href="' + (Esc (Rel-Url $r)) + '">' + (Esc $t.releasePage) + '</a></p>')
+        '<p><a href="' + (Esc (Rel-Url $r)) + '">' + (Esc $t.releasePage) + '</a> | <a href="' + $termsUrl + '">' + (Esc $t.termsLink) + '</a></p>')
 }
-function Table-Html($list, $t, $tableLabel) {
+function Table-Html($list, $t, $tableLabel, $termsUrl) {
     if ($list.Count -eq 0) { return '<p>' + (Esc $t.buildsNone) + '</p>' }
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine('<div class="tablewrap" role="region" tabindex="0" aria-label="' + (Esc $tableLabel) + '"><table><thead><tr>')
@@ -147,7 +160,7 @@ function Table-Html($list, $t, $tableLabel) {
     foreach ($r in $list) {
         $ch = $t.chAlpha; if ($r.channel -eq 'stable') { $ch = $t.chStable }
         [void]$sb.AppendLine('<tr><td>' + (Esc $r.version) + '</td><td>' + (Esc $r.date) + '</td><td>' + (Esc $ch) + '</td><td>' + (Fmt-Size $r.size) +
-            '</td><td><span class="sha">' + (Esc $r.sha256) + '</span></td><td>' + (Esc $r.notes) + '</td><td><a href="' + (Esc (Dl-Url $r)) + '">' + (Esc $r.file) + '</a></td></tr>')
+            '</td><td><span class="sha">' + (Esc $r.sha256) + '</span></td><td>' + (Esc $r.notes) + '</td><td><a href="' + (Esc (Dl-Url $r)) + '">' + (Esc $r.file) + '</a> (<a href="' + $termsUrl + '">' + (Esc $t.termsLink) + '</a>)</td></tr>')
     }
     [void]$sb.AppendLine('</tbody></table></div>')
     return $sb.ToString()
@@ -173,27 +186,28 @@ $stable = @($releases | Where-Object { $_.channel -eq 'stable' }) | Select-Objec
 function Build-Home($code, $outPath, $prefix, $homeUrl) {
     $L = $langs[$code]; $t = $L.t
     $jsKeys = 'downloadLink', 'releasePage', 'noAlpha', 'noStable', 'buildsNone', 'colVersion', 'colDate', 'colChannel', 'colSize', 'colSha', 'colNotes', 'colFile', 'chAlpha', 'chStable'
-    $js = [ordered]@{ tableLabel = $L.tableLabel }
+    $termsUrl = $prefix + 'terms/' + $code + '/'
+    $js = [ordered]@{ tableLabel = $L.tableLabel; termsUrl = $termsUrl; termsLink = $t.termsLink }
     foreach ($k in $jsKeys) { $js[$k] = $t.$k }
-    $main = Fill $tplHome @{
+    $main = Fill $tplHome (Merge-Vars (Foot-Vars $code $prefix) @{ downloadAcceptHtml = (Accept-Html $t $termsUrl)
         appName = (Esc $config.appName); whatText = (Esc $t.whatText); alphaHeading = (Esc $t.alphaHeading); alphaText = (Esc $t.alphaText); alphaText2 = (Esc $t.alphaText2)
         whatHeading = (Esc $t.whatHeading); whatText2 = (Esc $t.whatText2); whoHeading = (Esc $t.whoHeading); whoText = (Esc $t.whoText); who = (Li-List $t.who)
         howHeading = (Esc $t.howHeading); how = (Li-List $t.how); howText = (Esc $t.howText)
         downloadHeading = (Esc $t.downloadHeading); downloadIntro = (Esc $t.downloadIntro.Replace('%ANDROID%', $config.androidMin))
         latestAlpha = (Esc $t.latestAlpha); latestStable = (Esc $t.latestStable)
-        latestAlphaHtml = (Latest-Html $alpha $t.noAlpha $t); latestStableHtml = (Latest-Html $stable $t.noStable $t)
-        buildsHeading = (Esc $t.buildsHeading); buildsTable = (Table-Html $releases $t $L.tableLabel); buildsNote = (Esc $t.buildsNote)
+        latestAlphaHtml = (Latest-Html $alpha $t.noAlpha $t $termsUrl); latestStableHtml = (Latest-Html $stable $t.noStable $t $termsUrl)
+        buildsHeading = (Esc $t.buildsHeading); buildsTable = (Table-Html $releases $t $L.tableLabel $termsUrl); buildsNote = (Esc $t.buildsNote)
         installHeading = (Esc $t.installHeading); install = (Li-List $t.install)
         privacyHeading = (Esc $t.privacyHeading); privacyText = (Esc $t.privacyText); privacyUrl = ($prefix + 'privacy/' + $code + '/'); privacyLink = (Esc $t.privacyLink)
         contactHeading = (Esc $t.contactHeading); contactText = (Esc $t.contactText); issuesUrl = "https://github.com/$repo/issues"; issuesLink = (Esc $t.issuesLink)
         contactLabel = (Esc $t.contactLabel); contact = $contact; licenseNote = (Esc $t.licenseNote)
         repo = (Esc $repo); lang = $code; prefix = $prefix; jsData = ($js | ConvertTo-Json -Compress)
-    }
-    $page = Fill $tplLayout @{
+    })
+    $page = Fill $tplLayout (Merge-Vars (Foot-Vars $code $prefix) @{
         lang = $code; dir = $L.dir; title = (Esc $t.title); description = (Esc $t.description); prefix = $prefix; alternates = (Alternates $prefix)
         skip = (Esc $t.skip); homeUrl = $homeUrl; appName = (Esc $config.appName); langNav = (Esc $t.langNav)
         langLinks = (Lang-Links $code $prefix); main = $main; footer = (Esc $t.footer)
-    }
+    })
     Write-Text $outPath $page; [void]$written.Add($outPath)
 }
 
@@ -211,28 +225,47 @@ foreach ($c in $codes) {
     $notice = ''
     if ($L.policyNotice) { $notice = '<p class="notice">' + (Esc $L.policyNotice) + ' <a href="../en/" lang="en" hreflang="en">English</a></p>' }
     $main = Fill $tplPolicy @{ notice = $notice; policyHtml = $conv.Html; homeUrl = "../../$c/"; policyBack = (Esc $L.policyBack) }
-    $page = Fill $tplLayout @{
+    $page = Fill $tplLayout (Merge-Vars (Foot-Vars $c '../../') @{
         lang = $c; dir = $L.dir; title = (Esc $conv.Title); description = (Esc $conv.Title); prefix = '../../'; alternates = (Alternates '../')
         skip = (Esc $t.skip); homeUrl = "../../$c/"; appName = (Esc $config.appName); langNav = (Esc $t.langNav)
         langLinks = (Lang-Links $c '../'); main = $main; footer = (Esc $t.footer)
-    }
+    })
     Write-Text "privacy/$c/index.html" $page; [void]$written.Add("privacy/$c/index.html")
 }
 
-# Language chooser for /privacy/: JavaScript picks a language, <noscript> lists all of them.
-$en = $langs['en']
-$heading = ($codes | ForEach-Object { $langs[$_].t.privacyLink }) -join ' / '
-$choose = ($codes | ForEach-Object { $langs[$_].t.chooseLang }) -join ' / '
-$links = ($codes | ForEach-Object { '<li><a href="' + $_ + '/" lang="' + $_ + '" hreflang="' + $_ + '">' + (Esc $langs[$_].nativeName) + ': ' + (Esc $langs[$_].t.privacyLink) + '</a></li>' }) -join "`n"
-$avail = '[' + (($codes | ForEach-Object { '"' + $_ + '"' }) -join ',') + ']'
-$main = Fill $tplChooser @{ heading = (Esc $heading); appName = (Esc $config.appName); noscriptText = (Esc $choose); chooserLinks = $links; availJson = $avail }
-$page = Fill $tplLayout @{
-    lang = 'en'; dir = 'ltr'; title = (Esc ($en.t.privacyLink + ' | ' + $config.appName)); description = (Esc $en.t.privacyLink); prefix = '../'; alternates = (Alternates '')
-    skip = (Esc $en.t.skip); homeUrl = '../en/'; appName = (Esc $config.appName); langNav = (Esc $en.t.langNav)
-    langLinks = (Lang-Links '' ''); main = $main; footer = (Esc $en.t.footer)
+# Terms pages: the same pattern as the policy pages (source: TERMS.md / TERMS.<code>.md in the repository root).
+foreach ($c in $codes) {
+    $L = $langs[$c]; $t = $L.t
+    $termsPath = Join-Path $Root $L.termsFile
+    if (-not (Test-Path $termsPath)) { throw "Terms file missing for ${c}: $($L.termsFile)" }
+    $conv = Convert-Markdown (Read-Text $termsPath) $L.tableLabel
+    $notice = ''
+    if ($L.termsNotice) { $notice = '<p class="notice">' + (Esc $L.termsNotice) + ' <a href="../en/" lang="en" hreflang="en">English</a></p>' }
+    $main = Fill $tplPolicy @{ notice = $notice; policyHtml = $conv.Html; homeUrl = "../../$c/"; policyBack = (Esc $L.policyBack) }
+    $page = Fill $tplLayout (Merge-Vars (Foot-Vars $c '../../') @{
+        lang = $c; dir = $L.dir; title = (Esc $conv.Title); description = (Esc $conv.Title); prefix = '../../'; alternates = (Alternates '../')
+        skip = (Esc $t.skip); homeUrl = "../../$c/"; appName = (Esc $config.appName); langNav = (Esc $t.langNav)
+        langLinks = (Lang-Links $c '../'); main = $main; footer = (Esc $t.footer)
+    })
+    Write-Text "terms/$c/index.html" $page; [void]$written.Add("terms/$c/index.html")
 }
-Write-Text 'privacy/index.html' $page; [void]$written.Add('privacy/index.html')
 
+# Language choosers for /privacy/ and /terms/: JavaScript picks a language, <noscript> lists all of them.
+$en = $langs['en']
+foreach ($sec in @(@{ dir = 'privacy'; key = 'privacyLink' }, @{ dir = 'terms'; key = 'termsLink' })) {
+    $key = $sec.key
+    $heading = ($codes | ForEach-Object { $langs[$_].t.$key }) -join ' / '
+    $choose = ($codes | ForEach-Object { $langs[$_].t.chooseLang }) -join ' / '
+    $links = ($codes | ForEach-Object { '<li><a href="' + $_ + '/" lang="' + $_ + '" hreflang="' + $_ + '">' + (Esc $langs[$_].nativeName) + ': ' + (Esc $langs[$_].t.$key) + '</a></li>' }) -join "`n"
+    $avail = '[' + (($codes | ForEach-Object { '"' + $_ + '"' }) -join ',') + ']'
+    $main = Fill $tplChooser @{ heading = (Esc $heading); appName = (Esc $config.appName); noscriptText = (Esc $choose); chooserLinks = $links; availJson = $avail }
+    $page = Fill $tplLayout (Merge-Vars (Foot-Vars 'en' '../') @{
+        lang = 'en'; dir = 'ltr'; title = (Esc ($en.t.$key + ' | ' + $config.appName)); description = (Esc $en.t.$key); prefix = '../'; alternates = (Alternates '')
+        skip = (Esc $en.t.skip); homeUrl = '../en/'; appName = (Esc $config.appName); langNav = (Esc $en.t.langNav)
+        langLinks = (Lang-Links '' ''); main = $main; footer = (Esc $en.t.footer)
+    })
+    Write-Text ($sec.dir + '/index.html') $page; [void]$written.Add($sec.dir + '/index.html')
+}
 # Static assets
 $assetDir = Join-Path $Root 'assets'
 if (-not (Test-Path $assetDir)) { New-Item -ItemType Directory -Path $assetDir | Out-Null }
