@@ -1,0 +1,21 @@
+<h1>{{heading}}</h1>
+<p>{{appName}}</p>
+<noscript>
+<p>{{noscriptText}}</p>
+<ul>
+{{chooserLinks}}
+</ul>
+</noscript>
+<script>
+// Picks the language from the browser setting. Nothing is stored. Falls back to English.
+(function () {
+  var avail = {{availJson}};
+  var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+  var pick = 'en';
+  for (var i = 0; i < prefs.length; i++) {
+    var c = String(prefs[i]).toLowerCase().split('-')[0];
+    if (avail.indexOf(c) !== -1) { pick = c; break; }
+  }
+  location.replace(pick + '/');
+})();
+</script>

@@ -1,0 +1,7 @@
+builds/*
+!builds/.gitkeep
+*.apk
+*.aab
+secrets*
+*.keystore
+*.jks

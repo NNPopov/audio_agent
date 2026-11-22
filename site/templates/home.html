@@ -1,0 +1,108 @@
+<h1>{{appName}}</h1>
+<p>{{whatText}}</p>
+
+<section class="alpha" aria-labelledby="alpha-h">
+<h2 id="alpha-h">{{alphaHeading}}</h2>
+<p>{{alphaText}}</p>
+<p>{{alphaText2}}</p>
+</section>
+
+<section aria-labelledby="what-h">
+<h2 id="what-h">{{whatHeading}}</h2>
+<p>{{whatText2}}</p>
+</section>
+
+<section aria-labelledby="who-h">
+<h2 id="who-h">{{whoHeading}}</h2>
+<p>{{whoText}}</p>
+<ul>
+{{who}}
+</ul>
+</section>
+
+<section aria-labelledby="how-h">
+<h2 id="how-h">{{howHeading}}</h2>
+<ul>
+{{how}}
+</ul>
+<p>{{howText}}</p>
+</section>
+
+<section aria-labelledby="download-h" id="download" data-repo="{{repo}}" data-lang="{{lang}}">
+<h2 id="download-h">{{downloadHeading}}</h2>
+<p>{{downloadIntro}}</p>
+<h3>{{latestAlpha}}</h3>
+<div id="latest-alpha">{{latestAlphaHtml}}</div>
+<h3>{{latestStable}}</h3>
+<div id="latest-stable">{{latestStableHtml}}</div>
+
+<h3>{{buildsHeading}}</h3>
+<div id="builds">
+{{buildsTable}}
+</div>
+<p>{{buildsNote}}</p>
+</section>
+
+<section aria-labelledby="install-h">
+<h2 id="install-h">{{installHeading}}</h2>
+<ol>
+{{install}}
+</ol>
+</section>
+
+<section aria-labelledby="privacy-h">
+<h2 id="privacy-h">{{privacyHeading}}</h2>
+<p>{{privacyText}}</p>
+<p><a class="button" href="{{privacyUrl}}">{{privacyLink}}</a></p>
+</section>
+
+<section aria-labelledby="contact-h">
+<h2 id="contact-h">{{contactHeading}}</h2>
+<p>{{contactText}}</p>
+<p><a href="{{issuesUrl}}">{{issuesLink}}</a></p>
+<p>{{contactLabel}} {{contact}}</p>
+<p>{{licenseNote}}</p>
+</section>
+
+<script type="application/json" id="i18n-data">{{jsData}}</script>
+<script>
+(function () {
+  // Progressive enhancement: refresh the build list from releases.json. The page is complete without it.
+  var box = document.getElementById('download');
+  if (!box || !window.fetch) return;
+  var d; try { d = JSON.parse(document.getElementById('i18n-data').textContent); } catch (e) { return; }
+  var repo = box.getAttribute('data-repo');
+  function esc(s) { var e = document.createElement('div'); e.textContent = String(s); return e.innerHTML; }
+  function size(n) { return (n / 1048576).toFixed(1) + ' MB'; }
+  function dl(r) { return 'https://github.com/' + repo + '/releases/download/' + encodeURIComponent(r.tag) + '/' + encodeURIComponent(r.file); }
+  function rel(r) { return 'https://github.com/' + repo + '/releases/tag/' + encodeURIComponent(r.tag); }
+  function latest(r, none) {
+    if (!r) return '<p>' + esc(none) + '</p>';
+    return '<p><strong>' + esc(r.version) + '</strong>, ' + esc(r.date) + '</p>' +
+      '<p><a class="button" href="' + esc(dl(r)) + '">' + esc(d.downloadLink.replace('%FILE%', r.file).replace('%SIZE%', size(r.size))) + '</a></p>' +
+      '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a></p>';
+  }
+  function table(list) {
+    if (!list.length) return '<p>' + esc(d.buildsNone) + '</p>';
+    var h = '<div class="tablewrap" role="region" tabindex="0" aria-label="' + esc(d.tableLabel) + '"><table><thead><tr>';
+    ['colVersion', 'colDate', 'colChannel', 'colSize', 'colSha', 'colNotes', 'colFile'].forEach(function (k) { h += '<th scope="col">' + esc(d[k]) + '</th>'; });
+    h += '</tr></thead><tbody>';
+    list.forEach(function (r) {
+      h += '<tr><td>' + esc(r.version) + '</td><td>' + esc(r.date) + '</td><td>' + esc(r.channel === 'stable' ? d.chStable : d.chAlpha) + '</td><td>' + size(r.size) +
+        '</td><td><span class="sha">' + esc(r.sha256) + '</span></td><td>' + esc(r.notes || '') + '</td><td><a href="' + esc(dl(r)) + '">' + esc(r.file) + '</a></td></tr>';
+    });
+    return h + '</tbody></table></div>';
+  }
+  fetch('{{prefix}}releases.json', { cache: 'no-cache', credentials: 'omit', referrerPolicy: 'no-referrer' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (j) {
+      var list = j.releases || [];
+      var a = list.filter(function (r) { return r.channel === 'alpha'; })[0];
+      var s = list.filter(function (r) { return r.channel === 'stable'; })[0];
+      document.getElementById('latest-alpha').innerHTML = latest(a, d.noAlpha);
+      document.getElementById('latest-stable').innerHTML = latest(s, d.noStable);
+      document.getElementById('builds').innerHTML = table(list);
+    })
+    .catch(function () { /* keep the static content */ });
+})();
+</script>
