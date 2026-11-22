@@ -73,3 +73,8 @@ footer.site { border-top: 1px solid var(--border); padding: 16px 0 32px; color: 
 @media (max-width: 480px) { html { font-size: 106.25%; } h1 { font-size: 1.7rem; } }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 .footlinks { margin: 4px 0 0; }
+nav.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; margin: 16px 0; }
+nav.toc h2 { font-size: 1.2rem; margin: 8px 0; }
+nav.toc ol { margin-bottom: 8px; }
+nav.toc a { display: inline-block; min-height: 32px; padding: 4px 0; }
+h2[id], h3[id] { scroll-margin-top: 16px; }

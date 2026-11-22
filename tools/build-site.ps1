@@ -5,7 +5,7 @@
 #   TERMS.md, TERMS.<code>.md the terms of use of the app builds (same Markdown subset; path in i18n termsFile)
 #   site/templates/*.html     page templates
 #   releases.json             published builds (written by tools/update-releases.ps1)
-# Output: index.html, <code>/index.html, privacy/index.html, privacy/<code>/index.html, terms/index.html, terms/<code>/index.html, assets/style.css
+# Output: index.html, <code>/index.html, guide/index.html, guide/<code>/index.html (from site/guide/<code>.md), privacy/index.html, privacy/<code>/index.html, terms/index.html, terms/<code>/index.html, assets/style.css
 # Works in Windows PowerShell 5.1 and PowerShell 7. No dependencies. Keep this file ASCII only.
 param()
 $ErrorActionPreference = 'Stop'
@@ -53,10 +53,12 @@ function Convert-Inline($text, $contactReplaced) {
     return $s
 }
 
-function Convert-Markdown($md, $tableLabel) {
+function Convert-Markdown($md, $tableLabel, $tocLabel = '') {
     $lines = ($md -replace "`r`n", "`n").Split("`n")
     $out = New-Object System.Text.StringBuilder
     $title = ''
+    $tocItems = New-Object System.Collections.ArrayList
+    $listTag = 'ul'
     $para = New-Object System.Collections.ArrayList
     $list = New-Object System.Collections.ArrayList
     $table = New-Object System.Collections.ArrayList
@@ -65,9 +67,9 @@ function Convert-Markdown($md, $tableLabel) {
     }
     $flushList = {
         if ($list.Count -gt 0) {
-            [void]$out.AppendLine('<ul>')
+            [void]$out.AppendLine('<' + $listTag + '>')
             foreach ($i in $list) { [void]$out.AppendLine('<li>' + (Convert-Inline $i) + '</li>') }
-            [void]$out.AppendLine('</ul>'); $list.Clear()
+            [void]$out.AppendLine('</' + $listTag + '>'); $list.Clear()
         }
     }
     $flushTable = {
@@ -88,18 +90,29 @@ function Convert-Markdown($md, $tableLabel) {
     foreach ($line in $lines) {
         if ($line -match '^\|') { & $flushPara; & $flushList; [void]$table.Add($line); continue }
         & $flushTable
-        if ($line -match '^(#{1,3})\s+(.+)$') {
+        if ($line -match '^\[\[toc\]\]\s*$') { & $flushPara; & $flushList; [void]$out.AppendLine('<!--TOC-->') }
+        elseif ($line -match '^(#{1,3})\s+(.+?)(?:\s+\{#([a-z0-9-]+)\})?\s*$') {
             & $flushPara; & $flushList
-            $lvl = $Matches[1].Length; $txt = $Matches[2].Trim()
+            $lvl = $Matches[1].Length; $txt = $Matches[2].Trim(); $hid = $Matches[3]
             if ($lvl -eq 1 -and -not $title) { $title = $txt }
-            [void]$out.AppendLine("<h$lvl>" + (Convert-Inline $txt) + "</h$lvl>")
+            $idAttr = ''
+            if ($hid) { $idAttr = ' id="' + $hid + '"'; if ($lvl -eq 2) { [void]$tocItems.Add(@{ Id = $hid; Text = $txt }) } }
+            [void]$out.AppendLine("<h$lvl$idAttr>" + (Convert-Inline $txt) + "</h$lvl>")
         }
-        elseif ($line -match '^-\s+(.+)$') { & $flushPara; [void]$list.Add($Matches[1].Trim()) }
+        elseif ($line -match '^>\s+(.+)$') { & $flushPara; & $flushList; [void]$out.AppendLine('<div class="alpha"><p>' + (Convert-Inline $Matches[1].Trim()) + '</p></div>') }
+        elseif ($line -match '^-\s+(.+)$') { & $flushPara; if ($listTag -ne 'ul') { & $flushList }; $listTag = 'ul'; [void]$list.Add($Matches[1].Trim()) }
+        elseif ($line -match '^\d+\.\s+(.+)$') { & $flushPara; if ($listTag -ne 'ol') { & $flushList }; $listTag = 'ol'; [void]$list.Add($Matches[1].Trim()) }
         elseif ($line.Trim() -eq '') { & $flushPara; & $flushList }
         else { & $flushList; [void]$para.Add($line.Trim()) }
     }
     & $flushPara; & $flushList; & $flushTable
-    return @{ Html = $out.ToString(); Title = $title }
+    $html = $out.ToString()
+    if ($tocItems.Count -gt 0 -and $tocLabel) {
+        $toc = '<nav class="toc" aria-labelledby="toc-h"><h2 id="toc-h">' + (Esc $tocLabel) + '</h2><ol>' +
+            (($tocItems | ForEach-Object { '<li><a href="#' + $_.Id + '">' + (Convert-Inline $_.Text) + '</a></li>' }) -join '') + '</ol></nav>'
+        $html = $html.Replace('<!--TOC-->', $toc)
+    }
+    return @{ Html = $html; Title = $title }
 }
 
 # ---- Templates
@@ -135,7 +148,8 @@ $contact = Esc $config.contact
 
 function Foot-Vars($code, $prefix) {
     $t = $langs[$code].t
-    return @{ termsUrl = ($prefix + 'terms/' + $code + '/'); termsLink = (Esc $t.termsLink); licenseUrl = ('https://github.com/' + $repo + '/blob/main/LICENSE'); licenseLink = (Esc $t.licenseLink) }
+    return @{ termsUrl = ($prefix + 'terms/' + $code + '/'); termsLink = (Esc $t.termsLink); licenseUrl = ('https://github.com/' + $repo + '/blob/main/LICENSE'); licenseLink = (Esc $t.licenseLink)
+        guideUrl = ($prefix + 'guide/' + $code + '/'); guideLink = (Esc $t.guideLink) }
 }
 function Merge-Vars($a, $b) { foreach ($k in $b.Keys) { $a[$k] = $b[$k] }; return $a }
 function Accept-Html($t, $termsUrl) { return (Esc $t.downloadAccept).Replace('%TERMS%', '<a href="' + $termsUrl + '">' + (Esc $t.termsLink) + '</a>') }
@@ -197,7 +211,8 @@ function Build-Home($code, $outPath, $prefix, $homeUrl) {
         latestAlpha = (Esc $t.latestAlpha); latestStable = (Esc $t.latestStable)
         latestAlphaHtml = (Latest-Html $alpha $t.noAlpha $t $termsUrl); latestStableHtml = (Latest-Html $stable $t.noStable $t $termsUrl)
         buildsHeading = (Esc $t.buildsHeading); buildsTable = (Table-Html $releases $t $L.tableLabel $termsUrl); buildsNote = (Esc $t.buildsNote)
-        installHeading = (Esc $t.installHeading); install = (Li-List $t.install)
+        installHeading = (Esc $t.installHeading); install = (Li-List $t.install); installText = (Esc $t.installText)
+        useHeading = (Esc $t.useHeading); useText = (Esc $t.useText); use = (Li-List $t.use); useGuideText = (Esc $t.useGuideText)
         privacyHeading = (Esc $t.privacyHeading); privacyText = (Esc $t.privacyText); privacyUrl = ($prefix + 'privacy/' + $code + '/'); privacyLink = (Esc $t.privacyLink)
         contactHeading = (Esc $t.contactHeading); contactText = (Esc $t.contactText); issuesUrl = "https://github.com/$repo/issues"; issuesLink = (Esc $t.issuesLink)
         contactLabel = (Esc $t.contactLabel); contact = $contact; licenseNote = (Esc $t.licenseNote)
@@ -250,9 +265,26 @@ foreach ($c in $codes) {
     Write-Text "terms/$c/index.html" $page; [void]$written.Add("terms/$c/index.html")
 }
 
-# Language choosers for /privacy/ and /terms/: JavaScript picks a language, <noscript> lists all of them.
+# Guide pages (source: site/guide/<code>.md): the policy pattern, plus a table of contents built from the h2 headings that carry {#id}.
+# Placeholders in the guide text: [[contact]], [[androidmin]], [[repo]].
+foreach ($c in $codes) {
+    $L = $langs[$c]; $t = $L.t
+    $guidePath = Join-Path $Root ('site/guide/' + $c + '.md')
+    if (-not (Test-Path $guidePath)) { throw "Guide file missing for ${c}: site/guide/$c.md" }
+    $gmd = (Read-Text $guidePath).Replace('[[contact]]', [string]$config.contact).Replace('[[androidmin]]', [string]$config.androidMin).Replace('[[repo]]', $repo)
+    $conv = Convert-Markdown $gmd $L.tableLabel $t.guideToc
+    $main = Fill $tplPolicy @{ notice = ''; policyHtml = $conv.Html; homeUrl = "../../$c/"; policyBack = (Esc $L.policyBack) }
+    $page = Fill $tplLayout (Merge-Vars (Foot-Vars $c '../../') @{
+        lang = $c; dir = $L.dir; title = (Esc $conv.Title); description = (Esc $t.guideDescription); prefix = '../../'; alternates = (Alternates '../')
+        skip = (Esc $t.skip); homeUrl = "../../$c/"; appName = (Esc $config.appName); langNav = (Esc $t.langNav)
+        langLinks = (Lang-Links $c '../'); main = $main; footer = (Esc $t.footer)
+    })
+    Write-Text "guide/$c/index.html" $page; [void]$written.Add("guide/$c/index.html")
+}
+
+# Language choosers for /privacy/, /terms/ and /guide/: JavaScript picks a language, <noscript> lists all of them.
 $en = $langs['en']
-foreach ($sec in @(@{ dir = 'privacy'; key = 'privacyLink' }, @{ dir = 'terms'; key = 'termsLink' })) {
+foreach ($sec in @(@{ dir = 'privacy'; key = 'privacyLink' }, @{ dir = 'terms'; key = 'termsLink' }, @{ dir = 'guide'; key = 'guideLink' })) {
     $key = $sec.key
     $heading = ($codes | ForEach-Object { $langs[$_].t.$key }) -join ' / '
     $choose = ($codes | ForEach-Object { $langs[$_].t.chooseLang }) -join ' / '
