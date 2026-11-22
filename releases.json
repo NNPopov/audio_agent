@@ -1,3 +1,14 @@
 {
-  "releases": []
+  "releases": [
+    {
+      "version": "0.2.0-alpha.1",
+      "tag": "v0.2.0-alpha.1",
+      "date": "2026-11-22",
+      "channel": "alpha",
+      "file": "audio-agent-0.2.0-alpha.1.apk",
+      "sha256": "8bac60e0ed36853f1e639feb3a5cf8e4d22025ab22332c92e9ea4fe578f061c3",
+      "size": 4507375,
+      "notes": "First public alpha. Voice assistant with fob, keyboard and screen button control; bring your own Qwen and DeepSeek keys."
+    }
+  ]
 }
