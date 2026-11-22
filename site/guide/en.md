@@ -15,7 +15,7 @@ You need four things.
 1. An Android phone with Android [[androidmin]] or newer.
 2. An internet connection (Wi-Fi or mobile data). The app sends your voice and your requests over the internet to be understood and answered.
 3. A Qwen key. It is required. Without it the app can neither hear you nor speak.
-4. A DeepSeek key. It is optional. It adds more answer models and is also needed for weather, news and web search. The app works with the Qwen key alone.
+4. A DeepSeek key. It is optional. It adds more answer models. The app works with the Qwen key alone.
 
 **What is a key?** A key is a long secret text, like a password. It lets the app use an AI service in your name. You make a key yourself in your own account with the service. Nobody gives keys with the app. Keep your keys private: do not post them in chats or in screenshots.
 
@@ -159,7 +159,7 @@ Examples:
 - "Add milk to the shopping list." "Write a note: call the bank." "What is on the shopping list?"
 - "What do I have in my calendar tomorrow?"
 - "Schedule a meeting on Friday at 3 pm."
-- "What is the weather in Madrid?" This one needs the DeepSeek key.
+- "What is the weather in Madrid?"
 - "Call mom." The app finds the contact and opens the phone dialer. You press call yourself.
 - "Let's go home." "Build a route to work." The maps app opens.
 - "New chat." "Repeat." "More detail." "Shorter."
