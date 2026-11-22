@@ -2,7 +2,18 @@
 
 **English** | [Русский](README.ru.md)
 
-A voice assistant for Android that works with one button, a Bluetooth remote control or a keyboard. You speak, it answers aloud, and it can play music, set timers and reminders, keep notes, check the weather and help you call a contact. It is made first of all for blind and low-vision people and for people with limited use of their hands, and for anyone who needs to control a phone by voice without touching the screen.
+A voice assistant for Android that works with one button, a Bluetooth remote control or a keyboard. It is made first of all for blind and low-vision people and for people with limited use of their hands or other disabilities, and for anyone who needs to control a phone by voice without touching the screen. It is not a tool for single commands: it holds a long conversation, the chat goes on for many turns and keeps its context, and you can attach a document to a chat and discuss it by voice.
+
+What it can do, all by voice:
+
+- Long conversations that keep their context.
+- Documents: attach a text or Markdown document from the clipboard or with Share, then ask about it.
+- Music: play by artist, album or track; pause, next, previous, rewind and forward, volume, playlists.
+- Chats: start a new chat, go back to the previous one, hear the topics of recent chats, find and open a chat by topic, split a chat. On the screen: delete a chat, copy its brief summary, branch a new chat from a message.
+- Timers and reminders (by time or by place), notes and lists.
+- Weather, time, news and web search (search and news need a DeepSeek key).
+- Calendar, calling a contact, routes and saved places, reading unread text messages aloud.
+- Skip the answer that is being spoken, rephrase your last question, light and dark themes.
 
 **Web page and downloads:** https://nnpopov.github.io/audio_agent/ (English and Russian)
 

@@ -205,6 +205,7 @@ function Build-Home($code, $outPath, $prefix, $homeUrl) {
     foreach ($k in $jsKeys) { $js[$k] = $t.$k }
     $main = Fill $tplHome (Merge-Vars (Foot-Vars $code $prefix) @{ downloadAcceptHtml = (Accept-Html $t $termsUrl)
         appName = (Esc $config.appName); whatText = (Esc $t.whatText); alphaHeading = (Esc $t.alphaHeading); alphaText = (Esc $t.alphaText); alphaText2 = (Esc $t.alphaText2)
+        canHeading = (Esc $t.canHeading); canIntro = (Esc $t.canIntro); can = (Li-List $t.can)
         whatHeading = (Esc $t.whatHeading); whatText2 = (Esc $t.whatText2); whoHeading = (Esc $t.whoHeading); whoText = (Esc $t.whoText); who = (Li-List $t.who)
         howHeading = (Esc $t.howHeading); how = (Li-List $t.how); howText = (Esc $t.howText)
         downloadHeading = (Esc $t.downloadHeading); downloadIntro = (Esc $t.downloadIntro.Replace('%ANDROID%', $config.androidMin))

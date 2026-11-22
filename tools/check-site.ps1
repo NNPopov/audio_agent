@@ -57,7 +57,7 @@ foreach ($p in $pages) {
     }
     if ($p -match '^guide/([a-z]{2,3})/index\.html$') {
         if ($h -notmatch '<nav class="toc"') { Fail $p 'guide has no table of contents' }
-        foreach ($sec in 'need', 'install', 'keys', 'first', 'hands-free', 'say', 'places', 'update', 'trouble', 'report') {
+        foreach ($sec in 'need', 'install', 'keys', 'first', 'hands-free', 'say', 'chats', 'places', 'update', 'trouble', 'report') {
             if ($h -notmatch ('<h2 id="' + $sec + '">')) { Fail $p "guide section missing: $sec" }
             if ($h -notmatch ('<a href="#' + $sec + '">')) { Fail $p "table of contents lacks: $sec" }
         }

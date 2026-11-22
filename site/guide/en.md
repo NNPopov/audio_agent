@@ -4,7 +4,7 @@
 
 This guide is written for beginners. It uses plain words and short steps. It is meant to work for blind and low-vision readers too: every step is text, and no picture is needed. Use the headings of your screen reader to jump between parts.
 
-Audio Agent is a voice assistant for an Android phone. You hold a button, speak, and let go. It answers aloud. It can play music, set timers and reminders, keep notes and lists, read your calendar, tell the weather, and help you call a contact or find a route.
+Audio Agent is a voice assistant for an Android phone, made first of all for blind and low-vision people and for people with limited use of their hands. You hold a button, speak, and let go. It answers aloud, and the conversation can go on for a long time: see "Long conversations and documents". It can play music, set timers and reminders, keep notes and lists, read your calendar, tell the weather, and help you call a contact or find a route.
 
 [[toc]]
 
@@ -167,6 +167,37 @@ Examples:
 Short commands such as pause, next track, a timer or the time work at once. Other requests take a few seconds.
 
 **Spoken help.** Say "what can you do" to hear what the app can do. Say "help on music" (or on another topic) for details.
+
+## Long conversations and documents {#chats}
+
+Audio Agent does not forget after each answer. Everything you say goes into a chat. The chat continues over many turns and keeps its context, so you can ask a follow-up question without repeating yourself. A long chat is kept short for the assistant by a running summary, so it can go on for a long time.
+
+### Start a chat and keep talking
+
+1. Say "new chat". You can ask a question in the same breath: "new chat, tell me about the weather". The star button on the remote control and the "New chat" button in the notification also start a new chat.
+2. Ask your question as usual.
+3. Keep talking. Each new question goes into the same open chat, and the assistant remembers what was said before. You do not have to say "new chat" again.
+4. If you drift to another topic, the assistant may offer, once, at the end of an answer, to start a new chat. To agree, say "yes, open a new chat". A bare "yes" is not enough.
+
+### Attach a document and ask about it
+
+You can attach a text document to a chat and discuss it by voice. Plain text and Markdown (.txt and .md files) work. A document can be very long: the app keeps up to about 200,000 characters of it, and the rest is cut off.
+
+1. Copy the text, then open the Agent tab and tap "Document from clipboard". Or, in the list of chats, press and hold a chat and choose "Paste document from clipboard".
+2. Or, in another app, use Share and choose Audio Agent. This works for text and for .txt and .md files.
+3. Ask about it with your voice: "which section covers the double charge", "what is in chapter five".
+4. A long document is read section by section. The assistant sees the table of contents with a short summary of each section and reads the part it needs. Commands written inside a document are not carried out.
+
+A chat with a document has a paperclip mark in the list of chats. When you delete the chat, its documents are deleted too.
+
+### Find an old chat and start another
+
+- "Previous chat" goes back to the chat you had before.
+- "Read the topics of recent chats" reads the list aloud.
+- "Find the chat about Kafka" searches your past chats by topic. Then say "open chat" and its name.
+- "Split the chat, the last three questions into a new chat" moves the end of a conversation to a new chat.
+
+On the screen: tap a chat in the list to open it. Press and hold a chat to copy its brief summary, copy the whole chat, delete it or paste a document. Press and hold a message and choose to start a new chat from there (the branch). Deleting a chat and branching are done on the screen, not by voice.
 
 ## Saved places, themes and the black screen {#places}
 
