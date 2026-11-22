@@ -1,5 +1,7 @@
 # Audio Agent
 
+**English** | [Русский](README.ru.md)
+
 A voice assistant for Android that works with one button, a Bluetooth remote control or a keyboard. You speak, it answers aloud, and it can play music, set timers and reminders, keep notes, check the weather and help you call a contact. It is made first of all for blind and low-vision people and for people with limited use of their hands, and for anyone who needs to control a phone by voice without touching the screen.
 
 **Web page and downloads:** https://nnpopov.github.io/audio_agent/ (English and Russian)
