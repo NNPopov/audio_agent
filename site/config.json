@@ -1,6 +1,6 @@
 {
-  "contact": "CONTACT_PLACEHOLDER",
-  "repo": "REPO_PLACEHOLDER",
+  "contact": "nn.popov@gmail.com",
+  "repo": "NNPopov/audio_agent",
   "appName": "Audio Agent",
   "androidMin": "12",
   "alphaKeep": 3

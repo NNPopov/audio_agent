@@ -20,7 +20,7 @@ The app has no server of its own, no accounts, no analytics and no advertising. 
 
 ## Reporting problems
 
-Use the Issues page of this repository: `ISSUES_URL_PLACEHOLDER`. Do not post API keys or private recordings. The contact address is set in one place, `site/config.json` (field `contact`, now `CONTACT_PLACEHOLDER`).
+Use the Issues page of this repository: <https://github.com/NNPopov/audio_agent/issues>. Do not post API keys or private recordings. The contact address is set in one place, `site/config.json` (field `contact`, now `nn.popov@gmail.com`).
 
 ## License
 

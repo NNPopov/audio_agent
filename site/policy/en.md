@@ -93,4 +93,4 @@ When the app changes what it handles, this policy is updated and the "Last updat
 
 ## Contact
 
-Questions about this policy: [contact address: to be set before publishing].
+Questions about this policy: nn.popov@gmail.com.
