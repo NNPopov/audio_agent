@@ -67,8 +67,22 @@ function Convert-Markdown($md, $tableLabel, $tocLabel = '') {
     }
     $flushList = {
         if ($list.Count -gt 0) {
+            # items are "level|text"; level 0..2 gives nested lists (a tree)
             [void]$out.AppendLine('<' + $listTag + '>')
-            foreach ($i in $list) { [void]$out.AppendLine('<li>' + (Convert-Inline $i) + '</li>') }
+            $cur = 0
+            for ($n = 0; $n -lt $list.Count; $n++) {
+                $sep = $list[$n].IndexOf('|')
+                $lvl = [int]$list[$n].Substring(0, $sep)
+                $txt = $list[$n].Substring($sep + 1)
+                if ($lvl -gt $cur) { [void]$out.AppendLine('<ul>'); $cur = $lvl }
+                else {
+                    while ($lvl -lt $cur) { [void]$out.AppendLine('</li></ul>'); $cur-- }
+                    if ($n -gt 0) { [void]$out.AppendLine('</li>') }
+                }
+                [void]$out.Append('<li>' + (Convert-Inline $txt))
+            }
+            while ($cur -gt 0) { [void]$out.AppendLine('</li></ul>'); $cur-- }
+            [void]$out.AppendLine('</li>')
             [void]$out.AppendLine('</' + $listTag + '>'); $list.Clear()
         }
     }
@@ -100,8 +114,12 @@ function Convert-Markdown($md, $tableLabel, $tocLabel = '') {
             [void]$out.AppendLine("<h$lvl$idAttr>" + (Convert-Inline $txt) + "</h$lvl>")
         }
         elseif ($line -match '^>\s+(.+)$') { & $flushPara; & $flushList; [void]$out.AppendLine('<div class="alpha"><p>' + (Convert-Inline $Matches[1].Trim()) + '</p></div>') }
-        elseif ($line -match '^-\s+(.+)$') { & $flushPara; if ($listTag -ne 'ul') { & $flushList }; $listTag = 'ul'; [void]$list.Add($Matches[1].Trim()) }
-        elseif ($line -match '^\d+\.\s+(.+)$') { & $flushPara; if ($listTag -ne 'ol') { & $flushList }; $listTag = 'ol'; [void]$list.Add($Matches[1].Trim()) }
+        elseif ($line -match '^(\s*)-\s+(.+)$') {
+            & $flushPara; if ($listTag -ne 'ul') { & $flushList }; $listTag = 'ul'
+            $lvl = [Math]::Min(2, [int][Math]::Floor($Matches[1].Length / 2))
+            [void]$list.Add("$lvl|" + $Matches[2].Trim())
+        }
+        elseif ($line -match '^\d+\.\s+(.+)$') { & $flushPara; if ($listTag -ne 'ol') { & $flushList }; $listTag = 'ol'; [void]$list.Add('0|' + $Matches[1].Trim()) }
         elseif ($line.Trim() -eq '') { & $flushPara; & $flushList }
         else { & $flushList; [void]$para.Add($line.Trim()) }
     }

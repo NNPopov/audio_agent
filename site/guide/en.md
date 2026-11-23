@@ -4,7 +4,11 @@
 
 This guide is written for beginners. It uses plain words and short steps. It is meant to work for blind and low-vision readers too: every step is text, and no picture is needed. Use the headings of your screen reader to jump between parts.
 
-Audio Agent is a voice assistant for an Android phone, made first of all for blind and low-vision people and for people with limited use of their hands. You hold a button, speak, and let go. It answers aloud, and the conversation can go on for a long time: see "Long conversations and documents". It can play music, set timers and reminders, keep notes and lists, read your calendar, tell the weather, and help you call a contact or find a route.
+Audio Agent is a voice assistant for an Android phone, made first of all for blind and low-vision people and for people with limited use of their hands. You press a button, speak, and let go. It answers aloud.
+
+The main idea is the long conversation. A chat goes on for many turns, keeps the context of what was said before, and you can come back to it later, find it by topic, attach a document to it and discuss the document by voice. See "Long conversations and documents". Short commands (music, timers, reminders, notes, calendar, weather, calls, routes) are a second, supporting part: they work at once, in the same chat.
+
+One button is enough for everything. A remote (fob) with several buttons only saves you words and makes routine actions faster: stop, replay, skip, a new chat each get their own button. Almost everything a button does can also be done with one button and your voice.
 
 [[toc]]
 
@@ -106,7 +110,7 @@ You can use the assistant without touching the screen.
 
 Only buttons that act like a keyboard or a gamepad (Bluetooth or USB) work. Smart-home buttons that need their own hub do not. Pair the remote in Android's Bluetooth settings first.
 
-The app has ready profiles. The default one is for the 8BitDo Micro remote:
+The app has ready profiles, and you can make your own for any remote. As an example, here is the ready profile for one specific remote, the 8BitDo Micro (your remote may have other buttons; see "Set up your own buttons"):
 - Hold the right button A and speak: record, short answer.
 - Hold the top button X and speak: record, long answer.
 - Bottom button B: stop.
@@ -114,6 +118,8 @@ The app has ready profiles. The default one is for the 8BitDo Micro remote:
 - Minus: previous track. Plus: next track.
 - Heart: switch model. Star: new chat.
 - R1: unlock.
+
+You do not need a remote with many buttons. The buttons only replace spoken commands: instead of saying "stop" or "repeat" you press a button. Everything in the list above can also be said, and with one button (see "One button only") you can do the same things by voice.
 
 The remote locks itself after 15 seconds without presses, to avoid stray presses in a pocket. Press R1 to unlock. If the phone screen is off, the first press of R1 only wakes the screen. Press R1 a second time. This is normal.
 
@@ -145,32 +151,69 @@ If you can press just one button or switch, make it your recording button. Choos
 
 See "Optional: the power button" above.
 
-## What you can say {#say}
+## What you can say and what you can press {#say}
 
-You can speak normally. The exact words do not matter much. You can speak English or Russian.
-Examples:
-- "Play Metallica." Music files must be on the phone.
-- "Pause", "next track", "what's playing".
-- "Louder", "quieter", "volume 50 percent".
-- "Set a timer for five minutes." "How much time is left on the timer?" "Cancel the timer."
-- "What time is it?"
-- "Remind me tomorrow at ten to call the bank."
-- "What reminders do I have?"
-- "Add milk to the shopping list." "Write a note: call the bank." "What is on the shopping list?"
-- "What do I have in my calendar tomorrow?"
-- "Schedule a meeting on Friday at 3 pm."
-- "What is the weather in Madrid?"
-- "Call mom." The app finds the contact and opens the phone dialer. You press call yourself.
-- "Let's go home." "Build a route to work." The maps app opens.
-- "New chat." "Repeat." "More detail." "Shorter."
+There are two kinds of controls, and the second is optional.
+- Voice commands: you just say them. Nothing to set up. You can speak normally, the exact words do not matter much, in English or Russian.
+- Buttons: actions that you can give to a button of a remote, a keyboard key or the on-screen button. You may give them, or not. Each of them also has a voice phrase or a button on the screen, so one button and your voice are enough.
 
 Short commands such as pause, next track, a timer or the time work at once. Other requests take a few seconds.
 
-**Spoken help.** Say "what can you do" to hear what the app can do. Say "help on music" (or on another topic) for details.
+- Voice commands (say them)
+  - Long chats and documents
+    - "New chat." "New chat, tell me about the weather."
+    - "Previous chat." "Read the topics of recent chats."
+    - "Find the chat about Kafka." Then "open chat" and its name.
+    - "Split the chat, the last three questions into a new chat."
+    - With a document attached: "Which section covers the double charge?" "What is in chapter five?"
+  - The answer
+    - "More detail." "Shorter." "Repeat."
+    - "Skip the answer." "Rephrase my last question."
+  - Music (music files must be on the phone)
+    - "Play (artist name)." "Play the album ..." "Play the track ..."
+    - "Pause", "next track", "previous track", "what's playing".
+    - "Louder", "quieter", "volume 50 percent".
+    - "Save the playlist ..." "Play the playlist ..."
+  - Time and reminders
+    - "What time is it?"
+    - "Set a timer for five minutes." "How much time is left on the timer?" "Cancel the timer."
+    - "Remind me tomorrow at ten to call the bank." "What reminders do I have?"
+  - Notes and calendar
+    - "Add milk to the shopping list." "Write a note: call the bank." "What is on the shopping list?"
+    - "What do I have in my calendar tomorrow?" "Schedule a meeting on Friday at 3 pm."
+  - Weather, calls and routes
+    - "What is the weather in Madrid?"
+    - "Call mom." The app finds the contact and opens the phone dialer. You press call yourself.
+    - "Let's go home." "Build a route to work." The maps app opens.
+  - Help
+    - "What can you do?" "Help on music." (or on another topic)
+- Buttons (you can give them to a button, or not)
+  - Record, short answer: hold and speak
+  - Record, long answer: hold and speak. Or one tap starts and the next tap sends, for a single button
+  - Stop everything
+  - Replay the last answer
+  - Skip the answer that is being spoken
+  - Rephrase the last question
+  - Pause and resume the speech
+  - Music: previous track, next track, pause, rewind and forward 10 seconds
+  - Change the AI model
+  - New chat
+  - Unlock the remote
+
+Each button can hold up to six actions: tap, hold, double tap, double tap and hold, triple tap, triple tap and hold. See "Set up your own buttons".
 
 ## Long conversations and documents {#chats}
 
-Audio Agent does not forget after each answer. Everything you say goes into a chat. The chat continues over many turns and keeps its context, so you can ask a follow-up question without repeating yourself. A long chat is kept short for the assistant by a running summary, so it can go on for a long time.
+This is the main part of Audio Agent. It does not forget after each answer. Everything you say goes into a chat. The chat continues over many turns and keeps its context, so you can ask a follow-up question without repeating yourself. You can talk about one subject for an hour, leave, and come back to the same chat tomorrow.
+
+How a very long chat stays workable: the assistant does not have to re-read everything each time. Older turns are folded into a running brief summary that is updated as you talk, and the most recent turns stay in full. So the chat can go on for a long time.
+
+What you can do with long chats:
+- keep many chats, each on its own subject;
+- go back to the previous chat, hear the topics of recent chats, or find an old chat by a word from its topic;
+- attach a long document to a chat and discuss it by voice;
+- split one chat in two when the subject has drifted, or start a new chat from any message on the screen;
+- copy the brief summary of a chat or the whole chat.
 
 ### Start a chat and keep talking
 
@@ -220,7 +263,7 @@ On the screen: tap a chat in the list to open it. Press and hold a chat to copy 
 **The remote does not react.**
 - Check Settings, Ways to talk, Remote (fob). If it says "Not allowed yet", button access is off. After an app update Android sometimes turns it off. Turn it on again as described in "Install step by step".
 - Check that the remote is connected in Android's Bluetooth settings.
-- The remote may be locked. Press the unlock button (R1 on the 8BitDo profile). If the screen is off, press it twice.
+- The remote may be locked. Press the unlock button (R1 on the example 8BitDo Micro profile). If the screen is off, press it twice.
 - Open the Remote page and press the button. If the screen shows "not assigned", the button has no action: use "Learn a button".
 - Direction pads and sticks cannot be used. Face buttons and keyboard keys can.
 
