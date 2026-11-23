@@ -161,6 +161,9 @@ $tplLayout = Read-Text (Join-Path $Root 'site/templates/layout.html')
 $tplHome = Read-Text (Join-Path $Root 'site/templates/home.html')
 $tplPolicy = Read-Text (Join-Path $Root 'site/templates/policy.html')
 $tplChooser = Read-Text (Join-Path $Root 'site/templates/chooser.html')
+# New home design (diagram page): used for every language that has a "v2" block in its i18n json; the others keep home.html/layout.html.
+$tplHome2 = Read-Text (Join-Path $Root 'site/templates/home2.html')
+$tplLayout2 = Read-Text (Join-Path $Root 'site/templates/layout2.html')
 $repo = [string]$config.repo
 $contact = Esc $config.contact
 
@@ -182,6 +185,24 @@ function Latest-Html($r, $none, $t, $termsUrl) {
     return ('<p><strong>' + (Esc $r.version) + '</strong>, ' + (Esc $r.date) + '</p>' + "`n" +
         '<p><a class="button" href="' + (Esc (Dl-Url $r)) + '">' + (Esc $label) + '</a></p>' + "`n" +
         '<p><a href="' + (Esc (Rel-Url $r)) + '">' + (Esc $t.releasePage) + '</a> | <a href="' + $termsUrl + '">' + (Esc $t.termsLink) + '</a></p>')
+}
+function Latest2-Html($r, $none, $t, $v, $termsUrl) {
+    if (-not $r) { return '<p>' + (Esc $none) + '</p>' }
+    $label = $t.downloadLink.Replace('%FILE%', $r.file).Replace('%SIZE%', (Fmt-Size $r.size))
+    return ('<p><strong>' + (Esc $r.version) + '</strong>, ' + (Esc $r.date) + '</p>' + "`n" +
+        '<p><a class="btn pri" href="' + (Esc (Dl-Url $r)) + '">' + (Esc $label) + '</a></p>' + "`n" +
+        '<p class="lbl">' + (Esc $v.shaLabel) + ' <span class="sha">' + (Esc $r.sha256) + '</span></p>' + "`n" +
+        '<p><a href="' + (Esc (Rel-Url $r)) + '">' + (Esc $t.releasePage) + '</a> | <a href="' + $termsUrl + '">' + (Esc $t.termsLink) + '</a></p>')
+}
+# Fills {{v:key}} (escaped text) and {{vl:key}} (list items) from the "v2" block of a language.
+function Fill-V2($template, $v) {
+    return [regex]::Replace($template, '\{\{(vl?):(\w+)\}\}', {
+        param($m)
+        $k = $m.Groups[2].Value
+        if (-not $v.PSObject.Properties[$k]) { throw "v2 key missing in i18n json: $k" }
+        if ($m.Groups[1].Value -eq 'vl') { return (Li-List $v.$k) }
+        return (Esc $v.$k)
+    })
 }
 function Table-Html($list, $t, $tableLabel, $termsUrl) {
     if ($list.Count -eq 0) { return '<p>' + (Esc $t.buildsNone) + '</p>' }
@@ -217,6 +238,7 @@ $stable = @($releases | Where-Object { $_.channel -eq 'stable' }) | Select-Objec
 
 function Build-Home($code, $outPath, $prefix, $homeUrl) {
     $L = $langs[$code]; $t = $L.t
+    if ($L.PSObject.Properties['v2']) { Build-Home2 $code $outPath $prefix $homeUrl; return }
     $jsKeys = 'downloadLink', 'releasePage', 'noAlpha', 'noStable', 'buildsNone', 'colVersion', 'colDate', 'colChannel', 'colSize', 'colSha', 'colNotes', 'colFile', 'chAlpha', 'chStable'
     $termsUrl = $prefix + 'terms/' + $code + '/'
     $js = [ordered]@{ tableLabel = $L.tableLabel; termsUrl = $termsUrl; termsLink = $t.termsLink }
@@ -238,6 +260,38 @@ function Build-Home($code, $outPath, $prefix, $homeUrl) {
         repo = (Esc $repo); lang = $code; prefix = $prefix; jsData = ($js | ConvertTo-Json -Compress)
     })
     $page = Fill $tplLayout (Merge-Vars (Foot-Vars $code $prefix) @{
+        lang = $code; dir = $L.dir; title = (Esc $t.title); description = (Esc $t.description); prefix = $prefix; alternates = (Alternates $prefix)
+        skip = (Esc $t.skip); homeUrl = $homeUrl; appName = (Esc $config.appName); langNav = (Esc $t.langNav)
+        langLinks = (Lang-Links $code $prefix); main = $main; footer = (Esc $t.footer)
+    })
+    Write-Text $outPath $page; [void]$written.Add($outPath)
+}
+
+function Build-Home2($code, $outPath, $prefix, $homeUrl) {
+    $L = $langs[$code]; $t = $L.t; $v = $L.v2
+    $jsKeys = 'downloadLink', 'releasePage', 'noAlpha', 'noStable', 'buildsNone', 'colVersion', 'colDate', 'colChannel', 'colSize', 'colSha', 'colNotes', 'colFile', 'chAlpha', 'chStable'
+    $termsUrl = $prefix + 'terms/' + $code + '/'
+    $js = [ordered]@{ tableLabel = $L.tableLabel; termsUrl = $termsUrl; termsLink = $t.termsLink; shaLabel = $v.shaLabel }
+    foreach ($k in $jsKeys) { $js[$k] = $t.$k }
+    $chat = (($v.s3Items | ForEach-Object { '<li><span class="tick" aria-hidden="true"></span><span class="card chatitem">' + (Esc $_) + '</span></li>' }) -join "`n")
+    $body = Fill-V2 $tplHome2 $v
+    $main = Fill $body (Merge-Vars (Foot-Vars $code $prefix) @{ downloadAcceptHtml = (Accept-Html $t $termsUrl); chatItems = $chat
+        dlNeed = (Esc $v.dlNeed.Replace('%ANDROID%', $config.androidMin))
+        alphaHeading = (Esc $t.alphaHeading); alphaText = (Esc $t.alphaText); alphaText2 = (Esc $t.alphaText2)
+        whatText = (Esc $t.whatText); whatText2 = (Esc $t.whatText2); canIntro = (Esc $t.canIntro); can = (Li-List $t.can)
+        whoText = (Esc $t.whoText); who = (Li-List $t.who); how = (Li-List $t.how); howText = (Esc $t.howText)
+        latestAlpha = (Esc $t.latestAlpha); latestStable = (Esc $t.latestStable)
+        latestAlphaHtml = (Latest2-Html $alpha $t.noAlpha $t $v $termsUrl); latestStableHtml = (Latest2-Html $stable $t.noStable $t $v $termsUrl)
+        buildsHeading = (Esc $t.buildsHeading); buildsTable = (Table-Html $releases $t $L.tableLabel $termsUrl); buildsNote = (Esc $t.buildsNote)
+        installHeading = (Esc $t.installHeading); install = (Li-List $t.install); installText = (Esc $t.installText)
+        useHeading = (Esc $t.useHeading); useText = (Esc $t.useText); use = (Li-List $t.use); useGuideText = (Esc $t.useGuideText)
+        privacyHeading = (Esc $t.privacyHeading); privacyText = (Esc $t.privacyText); privacyUrl = ($prefix + 'privacy/' + $code + '/'); privacyLink = (Esc $t.privacyLink)
+        contactHeading = (Esc $t.contactHeading); contactText = (Esc $t.contactText); issuesUrl = "https://github.com/$repo/issues"; issuesLink = (Esc $t.issuesLink)
+        contactLabel = (Esc $t.contactLabel); contact = $contact; licenseNote = (Esc $t.licenseNote)
+        repo = (Esc $repo); lang = $code; prefix = $prefix; jsData = ($js | ConvertTo-Json -Compress)
+    })
+    $layout = Fill-V2 $tplLayout2 $v
+    $page = Fill $layout (Merge-Vars (Foot-Vars $code $prefix) @{
         lang = $code; dir = $L.dir; title = (Esc $t.title); description = (Esc $t.description); prefix = $prefix; alternates = (Alternates $prefix)
         skip = (Esc $t.skip); homeUrl = $homeUrl; appName = (Esc $config.appName); langNav = (Esc $t.langNav)
         langLinks = (Lang-Links $code $prefix); main = $main; footer = (Esc $t.footer)

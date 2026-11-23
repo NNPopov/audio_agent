@@ -12,11 +12,24 @@
 <link rel="alternate" hreflang="en" href="en/">
 <link rel="alternate" hreflang="ru" href="ru/">
 </head>
-<body>
+<body class="aa">
 <a class="skip" href="#main">Skip to main content</a>
-<header class="site">
-<div class="wrap">
+<div class="aa-root">
+<header class="top">
+<div class="w topbar">
+<div class="brandbox">
+<span class="mark" aria-hidden="true"></span>
 <a class="brand" href="./">Audio Agent</a>
+<span class="badge al">Alpha</span>
+</div>
+<div class="topnav">
+<nav aria-label="Main">
+<ul class="plain inline">
+<li><a href="#how">How it works</a></li>
+<li><a href="#download">Download</a></li>
+<li><a href="#more">More details</a></li>
+</ul>
+</nav>
 <nav class="langs" aria-label="Language">
 <ul>
 <li><a href="en/" lang="en" hreflang="en" aria-current="page">English</a></li>
@@ -24,25 +37,238 @@
 </ul>
 </nav>
 </div>
+</div>
 </header>
 <main id="main" tabindex="-1">
-<div class="wrap">
-<h1>Audio Agent</h1>
-<p>Audio Agent is a voice assistant for Android, made first of all for blind and low-vision people and for people with limited use of their hands or other disabilities. You press a button, speak, and the assistant answers aloud. It is not a tool for single commands. It holds a long conversation: the chat goes on for many turns and keeps what was said earlier. You can attach a document to a chat and discuss it by voice. It also plays and controls your music, and does everyday things: timers, reminders, notes, weather, calendar, calls and routes.</p>
+<section class="w hero-sec" aria-labelledby="h1">
+<div class="hero">
+<div>
+<h1 id="h1">One button.<br>A conversation that keeps going.</h1>
+<p class="lead">Press, speak, and your Android phone answers aloud. Made first for blind and low-vision people, and for anyone who can&#39;t easily use their hands.</p>
+<p class="lbl">Free for personal use &#183; alpha &#183; made by one person &#183; no account</p>
+<p class="lbl">Everything on this page works today, except what is marked Alpha.</p>
+<p class="cta"><a class="btn pri" href="#download">Download the alpha</a> <a class="btn" href="#how">See how it works</a></p>
+</div>
+<figure class="example" aria-labelledby="ex-cap">
+<figcaption id="ex-cap" class="lbl"><span class="badge">An example</span> One press, then just keep talking</figcaption>
+<div class="pressrow">
+<span class="pressbtn" aria-hidden="true">Press</span>
+<span class="lbl">One press starts a turn.</span>
+</div>
+<ol class="plain dialog">
+<li><span class="sq" aria-hidden="true"></span><span><strong>You:</strong> What&#39;s on my calendar tomorrow?</span></li>
+<li><span class="ci" aria-hidden="true"></span><span><strong>Audio Agent:</strong> Two things: the dentist at ten, and a call with Marta at four.</span></li>
+<li><span class="sq" aria-hidden="true"></span><span><strong>You:</strong> Add milk to the shopping list.</span></li>
+<li><span class="ci" aria-hidden="true"></span><span><strong>Audio Agent:</strong> Added.</span></li>
+<li class="lbl more-on">...and on</li>
+</ol>
+</figure>
+</div>
+</section>
 
-<section class="alpha" aria-labelledby="alpha-h">
-<h2 id="alpha-h">This is an alpha version</h2>
+<div class="w story-wrap">
+<div class="story">
+
+<section id="how" class="scr" aria-labelledby="s1">
+<span class="node" aria-hidden="true"></span>
+<p class="lbl eyebrow">1 &#183; How it works</p>
+<h2 id="s1" class="h2">Press. Speak. Listen. Ask again.</h2>
+<p class="sublead">It&#39;s one chat, not single commands. Every new question carries on from the last answer.</p>
+<div class="g4">
+<div class="card"><span class="badge">1</span><p class="cardt">Press the button</p></div>
+<div class="card"><span class="badge">2</span><p class="cardt">Speak</p></div>
+<div class="card"><span class="badge">3</span><p class="cardt">Hear the answer</p></div>
+<div class="card"><span class="badge">4</span><p class="cardt">Ask again</p></div>
+<div class="loop" aria-hidden="true"></div>
+<p class="loop lbl looptext">Step 4 goes back to step 2: same chat, it keeps what was said</p>
+</div>
+<details class="tv" open><summary>Text version of this diagram</summary>
+<ol>
+<li>Press the button, in any way you can press it.</li>
+<li>Speak your question.</li>
+<li>Hear the answer read aloud.</li>
+<li>Ask again. You are back at step 2, in the same chat, and it keeps what was said.</li>
+</ol>
+</details>
+<details class="tv"><summary>Details</summary><p>You can stop, replay or skip an answer, or ask it to rephrase. Light and dark themes, four text sizes and a black screen for driving.</p></details>
+</section>
+
+<section class="scr" aria-labelledby="s2">
+<span class="node" aria-hidden="true"></span>
+<p class="lbl eyebrow">2 &#183; Controls</p>
+<h2 id="s2" class="h2">One button can do six things.</h2>
+<p class="sublead">Press it any way you can. Each kind of press can do something different, and you choose what.</p>
+<div class="trio">
+<div class="card">
+<p class="cardt">Press with</p>
+<ul class="small">
+<li>the screen</li>
+<li>a Bluetooth remote or switch</li>
+<li>a keyboard key</li>
+<li>the power button (long press)</li>
+<li>a notification</li>
+</ul>
+</div>
+<div class="onewrap" aria-hidden="true"><span class="onebtn">One<br>button</span></div>
+<ul class="plain kinds">
+<li><span class="sym" aria-hidden="true"><span class="dot"></span></span>Tap</li>
+<li><span class="sym" aria-hidden="true"><span class="bar"></span></span>Hold</li>
+<li><span class="sym" aria-hidden="true"><span class="dot"></span><span class="dot"></span></span>Double tap</li>
+<li><span class="sym" aria-hidden="true"><span class="dot"></span><span class="bar"></span></span>Double tap and hold</li>
+<li><span class="sym" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>Triple tap</li>
+<li><span class="sym" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="bar"></span></span>Triple tap and hold</li>
+</ul>
+</div>
+<p class="lbl legend"><span class="dot" aria-hidden="true"></span> = short press · <span class="bar" aria-hidden="true"></span> = press and hold</p>
+<details class="tv" open><summary>Text version of this diagram</summary>
+<ul>
+<li>Ways to press: the screen, a Bluetooth remote or switch, a keyboard key, a long press of the power button, a notification button.</li>
+<li>They all lead to one button.</li>
+<li>One button, six kinds of press: tap; hold; double tap; double tap and hold; triple tap; triple tap and hold. Each can do a different action.</li>
+</ul>
+</details>
+<details class="tv"><summary>Details</summary><p>If a remote has more buttons, you can give each one its own function, for example stop, replay, skip the answer, rephrase or new chat. You set this up on the screen, button by button, and the app can learn which button you pressed.</p></details>
+</section>
+
+<section class="scr" aria-labelledby="s3">
+<span class="node" aria-hidden="true"></span>
+<p class="lbl eyebrow">3 &#183; Conversation</p>
+<h2 id="s3" class="h2">A conversation that keeps going.</h2>
+<div class="grid">
+<p class="sublead">Long chats keep going: a running summary keeps the start in mind. Along the way you can do more with it.</p>
+<div>
+<span class="badge big">Your chat</span>
+<ul class="plain chatline">
+<li><span class="tick" aria-hidden="true"></span><span class="card chatitem">Attach a document and ask about it</span></li>
+<li><span class="tick" aria-hidden="true"></span><span class="card chatitem">Find an old chat by its topic</span></li>
+<li><span class="tick" aria-hidden="true"></span><span class="card chatitem">Split a chat in two</span></li>
+<li><span class="tick" aria-hidden="true"></span><span class="card chatitem">Copy a short summary</span></li>
+<li><span class="tick" aria-hidden="true"></span><span class="card chatitem">Start a new chat, or go back</span></li>
+<li><span class="tick dashed" aria-hidden="true"></span><span class="memitem">Memory: it remembers what you told it <span class="badge al">Alpha</span></span></li>
+</ul>
+<div class="chatend" aria-hidden="true"></div>
+</div>
+</div>
+<details class="tv" open><summary>Text version of this diagram</summary>
+<ul><li>Your chat, one long line. Along it you can:<ul>
+<li>Attach a text or Markdown document and ask about it by voice.</li>
+<li>Find an old chat by its topic.</li>
+<li>Split a chat in two.</li>
+<li>Copy a short summary.</li>
+<li>Start a new chat, or go back to the previous one.</li>
+<li><span class="badge al">Alpha</span> Memory: it remembers what you told it about yourself.</li>
+</ul></li><li>The line keeps going.</li></ul>
+</details>
+<details class="tv"><summary>Details</summary><p>Add a document from the clipboard or with Share. Hear the topics of your recent chats. Memory: you can see, edit and delete everything it remembers, or switch it off.</p></details>
+</section>
+
+<section class="scr" aria-labelledby="s4">
+<span class="node" aria-hidden="true"></span>
+<p class="lbl eyebrow">4 &#183; Everyday</p>
+<h2 id="s4" class="h2">Everyday things, in the same chat.</h2>
+<p class="sublead">You don&#39;t switch apps or modes. Just say it.</p>
+<ul class="plain g3">
+<li class="card"><strong>Music on your phone</strong><p class="lbl">“Play my evening playlist.”</p></li>
+<li class="card"><strong>Timers and reminders</strong><p class="lbl">“Remind me to buy bread when I&#39;m near the shop.”</p></li>
+<li class="card"><strong>Notes and lists</strong><p class="lbl">“Add eggs to the shopping list.”</p></li>
+<li class="card"><strong>Weather, news, search</strong><p class="lbl">“What&#39;s the weather tomorrow?”</p></li>
+<li class="card"><strong>Calendar and calls</strong><p class="lbl">“Call Anna.” The dialer opens; you press call.</p></li>
+<li class="card"><strong>Routes and places</strong><p class="lbl">“Take me home.”</p></li>
+</ul>
+<details class="tv" open><summary>Text version of this diagram</summary>
+<ul>
+<li>Music on your phone: “Play my evening playlist.”</li>
+<li>Timers and reminders, by time or place: “Remind me to buy bread when I&#39;m near the shop.”</li>
+<li>Notes and lists: “Add eggs to the shopping list.”</li>
+<li>Weather, news, web search: “What&#39;s the weather tomorrow?”</li>
+<li>Calendar and calls: “Call Anna.” The dialer opens; you press call.</li>
+<li>Routes and saved places: “Take me home.”</li>
+<li><span class="badge al">Alpha build only</span> Reads your unread text messages aloud, with numbers and codes hidden.</li>
+</ul>
+</details>
+<details class="tv"><summary>Details</summary><p>Music: artist, album, track, playlists, pause, next, volume. Calendar: read your events and add one. A reminder by place needs location permission. Search and news need a DeepSeek key. <span class="badge al">Alpha build only</span> Reads your unread text messages aloud, with numbers and codes hidden.</p></details>
+</section>
+
+<section class="scr" aria-labelledby="s5">
+<span class="node" aria-hidden="true"></span>
+<p class="lbl eyebrow">5 &#183; Privacy</p>
+<h2 id="s5" class="h2">No developer server.</h2>
+<p class="sublead">You bring your own keys. Your voice and text go straight from your phone to the AI services, and nowhere else.</p>
+<div class="flow">
+<div class="phone">
+<p class="strong">Your phone</p>
+<ul>
+<li>your chats</li>
+<li>your API keys</li>
+<li>what it remembers</li>
+</ul>
+</div>
+<div class="arrowbox">
+<svg class="arr" aria-hidden="true" focusable="false" width="72" height="24" viewBox="0 0 72 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M2 12h64M56 3l10 9-10 9"/></svg>
+<span class="lbl">voice and text, with your keys</span>
+</div>
+<div class="targets">
+<div class="card solid"><p class="strong">AI services</p><p class="lbl">Qwen: voice recognition and speech</p><p class="lbl">DeepSeek: web search and news</p></div>
+<div class="nosrv"><p class="strong">Developer server</p><p class="lbl">There is none.</p></div>
+</div>
+</div>
+<p class="privline">No account &#183; No analytics &#183; No ads</p>
+<details class="tv" open><summary>Text version of this diagram</summary>
+<ul>
+<li>Your phone holds your chats, your API keys and what it remembers.</li>
+<li>Voice and text go from your phone, with your keys, straight to the AI services: Qwen for voice recognition and speech, DeepSeek for web search and news.</li>
+<li>Developer server: there is none.</li>
+<li>No account, no analytics, no ads.</li>
+</ul>
+</details>
+</section>
+
+</div>
+</div>
+
+<section id="download" class="w dl-sec" aria-labelledby="download-h" data-repo="NNPopov/audio_agent" data-lang="en">
+<div class="card dlcard">
+<h2 id="download-h" class="h2">Try the alpha</h2>
+<p class="sublead">Free for personal use, for Android. It is an alpha made by one person: some things will break, and your feedback shapes it.</p>
+<p>You need: an Android phone with Android 12 or newer, and your own API keys. Voice recognition and speech use Qwen; web search and news use DeepSeek. You enter the keys yourself, and the setup guide shows how to get them.</p>
+<p class="lbl">The app is not in Google Play. You install an APK file that you download from GitHub Releases.</p>
+<p>By downloading you accept the <a href="terms/en/">Terms</a>.</p>
+<div class="alpha" role="note">
+<p><span class="badge al">Alpha</span> <strong>This is an alpha version</strong></p>
 <p>Audio Agent is in alpha, earlier than beta. It is experimental software made by one person. Expect bugs, missing features and changes without notice. Do not rely on it for anything important or safety-critical, and do not use it as your only way to call for help or to keep reminders.</p>
 <p>There is no guarantee of support or updates.</p>
+</div>
+<h3>Latest alpha build</h3>
+<div id="latest-alpha"><p><strong>0.2.0-alpha.1</strong>, 2026-11-22</p>
+<p><a class="btn pri" href="https://github.com/NNPopov/audio_agent/releases/download/v0.2.0-alpha.1/audio-agent-0.2.0-alpha.1.apk">Download audio-agent-0.2.0-alpha.1.apk (4.3 MB)</a></p>
+<p class="lbl">SHA-256: <span class="sha">8bac60e0ed36853f1e639feb3a5cf8e4d22025ab22332c92e9ea4fe578f061c3</span></p>
+<p><a href="https://github.com/NNPopov/audio_agent/releases/tag/v0.2.0-alpha.1">Release page and notes</a> | <a href="terms/en/">Terms</a></p></div>
+<p><a class="btn" href="guide/en/">Setup guide</a></p>
+<h3>Latest stable build</h3>
+<div id="latest-stable"><p>There is no stable build yet. Everything is alpha.</p></div>
+
+<h3 id="install-h">How to install</h3>
+<ol>
+<li>Download the APK file on your phone (use the download button above).</li>
+<li>Open it. Android asks to allow installing apps from this source (your browser or file manager). Allow it for this install.</li>
+<li>Android Play Protect may warn that the app is unknown. This is expected for an app outside Google Play.</li>
+<li>Open Audio Agent. When it asks for the microphone and for notifications, allow them.</li>
+<li>Enter your own keys: Settings, Keys. The button &quot;How to get keys&quot; in the app explains it. Then press &quot;Check&quot;.</li>
+<li>Optional: compare the SHA-256 value in the table with the file you downloaded.</li>
+</ol>
+<p>These are the short steps. The full guide explains every screen in plain words: how to get and enter your keys, how to turn on the remote control, and what to do when something does not work.</p>
+<p><a class="btn" href="guide/en/">Read the user guide</a></p>
+</div>
 </section>
 
-<section aria-labelledby="what-h">
-<h2 id="what-h">What it is</h2>
+<section id="more" class="w more-sec" aria-labelledby="more-h">
+<h2 id="more-h" class="h2">More details</h2>
+<p class="sublead">The pages above are the overview. Here is the rest, and the full guide explains every screen step by step.</p>
+<details class="tv"><summary>What it is</summary>
+<p>Audio Agent is a voice assistant for Android, made first of all for blind and low-vision people and for people with limited use of their hands or other disabilities. You press a button, speak, and the assistant answers aloud. It is not a tool for single commands. It holds a long conversation: the chat goes on for many turns and keeps what was said earlier. You can attach a document to a chat and discuss it by voice. It also plays and controls your music, and does everyday things: timers, reminders, notes, weather, calendar, calls and routes.</p>
 <p>It has no server of its own and no account. It talks directly to AI services (Qwen and DeepSeek) with API keys that you enter yourself, so you need your own keys and an agreement with those providers.</p>
-</section>
-
-<section aria-labelledby="can-h">
-<h2 id="can-h">What it can do</h2>
+</details>
+<details class="tv"><summary>What it can do</summary>
 <p>Everything here works by voice. The user guide has the exact phrases.</p>
 <ul>
 <li>One button is enough. You can talk to the assistant with a single button on a remote (a fob), a switch, or a key: start a recording, stop, replay the answer. If the remote has more buttons, you can give each one a function. On any one button you can set up to six different actions: a short press and a long press, each as a single, a double or a triple press. You set this up on the screen, button by button, and the app can learn which button you pressed.</li>
@@ -59,38 +285,35 @@
 <li>Skip the answer that is being spoken, or rephrase your last question.</li>
 <li>A light or dark theme, and a black screen for driving.</li>
 </ul>
-</section>
-
-<section aria-labelledby="who-h">
-<h2 id="who-h">Who it is for</h2>
+</details>
+<details class="tv"><summary>Who it is for</summary>
 <p>The app is built around people who find a touch screen hard to use:</p>
 <ul>
 <li>blind and low-vision users, who can control it without looking at the screen</li>
 <li>people with limited use of their hands, who can use a remote control, a keyboard or one large on-screen button</li>
 <li>anyone who wants hands-free voice control</li>
 </ul>
-</section>
-
-<section aria-labelledby="how-h">
-<h2 id="how-h">How you control it</h2>
+</details>
+<details class="tv"><summary>How you control it</summary>
 <ul>
 <li>A Bluetooth remote control (fob) or the keys of a keyboard, also with the screen off</li>
 <li>A large button on the screen and the Android accessibility button</li>
 <li>Your voice: hold or tap to record, then release to send</li>
 </ul>
 <p>The app uses the Android accessibility service only to receive the presses of the remote control and keyboard that you set up. It does not read the screen or other apps.</p>
-</section>
+</details>
 
-<section aria-labelledby="download-h" id="download" data-repo="NNPopov/audio_agent" data-lang="en">
-<h2 id="download-h">Download</h2>
-<p>Requires Android 12 or newer. The app is not in Google Play. You install an APK file that you download from GitHub Releases.</p>
-<p>By downloading you accept the <a href="terms/en/">Terms</a>.</p>
-<h3>Latest alpha build</h3>
-<div id="latest-alpha"><p><strong>0.2.0-alpha.1</strong>, 2026-11-22</p>
-<p><a class="button" href="https://github.com/NNPopov/audio_agent/releases/download/v0.2.0-alpha.1/audio-agent-0.2.0-alpha.1.apk">Download audio-agent-0.2.0-alpha.1.apk (4.3 MB)</a></p>
-<p><a href="https://github.com/NNPopov/audio_agent/releases/tag/v0.2.0-alpha.1">Release page and notes</a> | <a href="terms/en/">Terms</a></p></div>
-<h3>Latest stable build</h3>
-<div id="latest-stable"><p>There is no stable build yet. Everything is alpha.</p></div>
+<h3 id="use-h">How to use it</h3>
+<p>Short version:</p>
+<ul>
+<li>Hold the big Record button on the Agent tab, speak, and let go. The answer is spoken aloud.</li>
+<li>Short commands work at once: &quot;pause&quot;, &quot;next track&quot;, &quot;set a timer for five minutes&quot;, &quot;what time is it&quot;.</li>
+<li>Ask for music, reminders, notes and lists, calendar events, weather, calling a contact or a route.</li>
+<li>Use a remote control, a keyboard key, the notification button or a long press of the power button, so you do not have to touch the screen.</li>
+<li>Say &quot;what can you do&quot; to hear spoken help.</li>
+</ul>
+<p>The user guide explains all of this step by step, for beginners, including blind and low-vision users.</p>
+<p><a class="btn" href="guide/en/">Read the user guide</a></p>
 
 <h3>All published builds</h3>
 <div id="builds">
@@ -101,51 +324,19 @@
 
 </div>
 <p>Only the three newest alpha builds and the builds marked stable are kept. Older builds are removed.</p>
-</section>
 
-<section aria-labelledby="install-h">
-<h2 id="install-h">How to install</h2>
-<ol>
-<li>Download the APK file on your phone (use the download button above).</li>
-<li>Open it. Android asks to allow installing apps from this source (your browser or file manager). Allow it for this install.</li>
-<li>Android Play Protect may warn that the app is unknown. This is expected for an app outside Google Play.</li>
-<li>Open Audio Agent. When it asks for the microphone and for notifications, allow them.</li>
-<li>Enter your own keys: Settings, Keys. The button &quot;How to get keys&quot; in the app explains it. Then press &quot;Check&quot;.</li>
-<li>Optional: compare the SHA-256 value in the table with the file you downloaded.</li>
-</ol>
-<p>These are the short steps. The full guide explains every screen in plain words: how to get and enter your keys, how to turn on the remote control, and what to do when something does not work.</p>
-<p><a class="button" href="guide/en/">Read the user guide</a></p>
-</section>
-
-<section aria-labelledby="use-h" id="use">
-<h2 id="use-h">How to use it</h2>
-<p>Short version:</p>
-<ul>
-<li>Hold the big Record button on the Agent tab, speak, and let go. The answer is spoken aloud.</li>
-<li>Short commands work at once: &quot;pause&quot;, &quot;next track&quot;, &quot;set a timer for five minutes&quot;, &quot;what time is it&quot;.</li>
-<li>Ask for music, reminders, notes and lists, calendar events, weather, calling a contact or a route.</li>
-<li>Use a remote control, a keyboard key, the notification button or a long press of the power button, so you do not have to touch the screen.</li>
-<li>Say &quot;what can you do&quot; to hear spoken help.</li>
-</ul>
-<p>The user guide explains all of this step by step, for beginners, including blind and low-vision users.</p>
-<p><a class="button" href="guide/en/">Read the user guide</a></p>
-</section>
-
-<section aria-labelledby="privacy-h">
-<h2 id="privacy-h">Privacy</h2>
+<h3 id="privacy-h">Privacy</h3>
 <p>There is no developer server, no account, no analytics and no advertising. Your voice and requests go from your phone straight to the AI providers whose keys you entered. This site makes no requests to third parties.</p>
-<p><a class="button" href="privacy/en/">Read the privacy policy</a></p>
-</section>
+<p><a class="btn" href="privacy/en/">Read the privacy policy</a></p>
 
-<section aria-labelledby="contact-h">
-<h2 id="contact-h">Contact and problems</h2>
+<h3 id="contact-h">Contact and problems</h3>
 <p>Report problems on the issues page of the project, or write to the contact address.</p>
 <p><a href="https://github.com/NNPopov/audio_agent/issues">Report an issue on GitHub</a></p>
 <p>Contact address: nn.popov@gmail.com</p>
 <p>The site text and the privacy policy are CC BY 4.0. The app builds are all rights reserved, free for personal use. The source code is not published. <a href="terms/en/">Terms</a> | <a href="https://github.com/NNPopov/audio_agent/blob/main/LICENSE">License</a></p>
 </section>
 
-<script type="application/json" id="i18n-data">{"tableLabel":"Table, scroll sideways if needed","termsUrl":"terms/en/","termsLink":"Terms","downloadLink":"Download %FILE% (%SIZE%)","releasePage":"Release page and notes","noAlpha":"No alpha build has been published yet.","noStable":"There is no stable build yet. Everything is alpha.","buildsNone":"No builds have been published yet.","colVersion":"Version","colDate":"Date","colChannel":"Channel","colSize":"Size","colSha":"SHA-256","colNotes":"Notes","colFile":"Download","chAlpha":"alpha","chStable":"stable"}</script>
+<script type="application/json" id="i18n-data">{"tableLabel":"Table, scroll sideways if needed","termsUrl":"terms/en/","termsLink":"Terms","shaLabel":"SHA-256:","downloadLink":"Download %FILE% (%SIZE%)","releasePage":"Release page and notes","noAlpha":"No alpha build has been published yet.","noStable":"There is no stable build yet. Everything is alpha.","buildsNone":"No builds have been published yet.","colVersion":"Version","colDate":"Date","colChannel":"Channel","colSize":"Size","colSha":"SHA-256","colNotes":"Notes","colFile":"Download","chAlpha":"alpha","chStable":"stable"}</script>
 <script>
 (function () {
   // Progressive enhancement: refresh the build list from releases.json. The page is complete without it.
@@ -160,7 +351,8 @@
   function latest(r, none) {
     if (!r) return '<p>' + esc(none) + '</p>';
     return '<p><strong>' + esc(r.version) + '</strong>, ' + esc(r.date) + '</p>' +
-      '<p><a class="button" href="' + esc(dl(r)) + '">' + esc(d.downloadLink.replace('%FILE%', r.file).replace('%SIZE%', size(r.size))) + '</a></p>' +
+      '<p><a class="btn pri" href="' + esc(dl(r)) + '">' + esc(d.downloadLink.replace('%FILE%', r.file).replace('%SIZE%', size(r.size))) + '</a></p>' +
+      '<p class="lbl">' + esc(d.shaLabel) + ' <span class="sha">' + esc(r.sha256) + '</span></p>' +
       '<p><a href="' + esc(rel(r)) + '">' + esc(d.releasePage) + '</a> | <a href="' + esc(d.termsUrl) + '">' + esc(d.termsLink) + '</a></p>';
   }
   function table(list) {
@@ -188,13 +380,13 @@
 })();
 </script>
 
-</div>
 </main>
 <footer class="site">
-<div class="wrap">
+<div class="w">
 <p>Audio Agent is an alpha-stage project. No tracking on this site.</p>
 <p class="footlinks"><a href="guide/en/">Read the user guide</a> | <a href="terms/en/">Terms</a> | <a href="https://github.com/NNPopov/audio_agent/blob/main/LICENSE">License</a></p>
 </div>
 </footer>
+</div>
 </body>
 </html>
