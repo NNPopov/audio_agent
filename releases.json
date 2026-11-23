@@ -1,6 +1,16 @@
 {
   "releases": [
     {
+      "version": "0.2.0-alpha.2",
+      "tag": "v0.2.0-alpha.2",
+      "date": "2026-11-23",
+      "channel": "alpha",
+      "file": "audio-agent-0.2.0-alpha.2.apk",
+      "sha256": "fffa9296b9d519080c511d761232a80d22dffb0dcac1c565bd89382621b47098",
+      "size": 4675488,
+      "notes": "Second public alpha. Cross-chat memory (alpha, with a switch), icons on the tabs and buttons, text size choice, roomier chats list, command exchanges kept out of summaries, answer cut/refusal notices, new voice commands (skip answer, rephrase). Bring your own Qwen and DeepSeek keys."
+    },
+    {
       "version": "0.2.0-alpha.1",
       "tag": "v0.2.0-alpha.1",
       "date": "2026-11-22",
