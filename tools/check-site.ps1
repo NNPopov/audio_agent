@@ -10,8 +10,8 @@ $codes = @(Get-ChildItem (Join-Path $Root 'site/i18n') -Filter '*.json' | ForEac
 $errors = New-Object System.Collections.ArrayList
 function Fail($page, $msg) { [void]$errors.Add("${page}: $msg") }
 
-$pages = @('index.html', 'privacy/index.html', 'terms/index.html', 'guide/index.html')
-foreach ($c in $codes) { $pages += "$c/index.html"; $pages += "privacy/$c/index.html"; $pages += "terms/$c/index.html"; $pages += "guide/$c/index.html" }
+$pages = @('index.html', 'privacy/index.html', 'terms/index.html', 'guide/index.html', 'commands/index.html')
+foreach ($c in $codes) { $pages += "$c/index.html"; $pages += "privacy/$c/index.html"; $pages += "terms/$c/index.html"; $pages += "guide/$c/index.html"; $pages += "commands/$c/index.html" }
 
 foreach ($p in $pages) {
     $full = Join-Path $Root $p
@@ -39,7 +39,7 @@ foreach ($p in $pages) {
         if (-not (Test-Path $target)) { Fail $p "broken link: $u" }
     }
     # Every page links Terms (own language) and License
-    $tl = 'en'; if ($p -match '^(?:privacy/|terms/|guide/)?([a-z]{2,3})/index\.html$') { $tl = $Matches[1] }
+    $tl = 'en'; if ($p -match '^(?:privacy/|terms/|guide/|commands/)?([a-z]{2,3})/index\.html$') { $tl = $Matches[1] }
     if ($h -notmatch ('<a href="[^"]*terms/' + $tl + '/">')) { Fail $p "no link to the Terms ($tl)" }
     if ($h -notmatch 'href="https://github\.com/[^"]+/blob/main/LICENSE"') { Fail $p 'no link to the License' }
     if ($p -match '^terms/([a-z]{2,3})/index\.html$') {
@@ -64,8 +64,18 @@ foreach ($p in $pages) {
         if ($h -notmatch 'class="alpha"') { Fail $p 'guide has no alpha notice' }
         if ($h -match '\*\*|\]\(|\[\[|<!--TOC-->') { Fail $p 'unconverted Markdown or placeholder left in the guide' }
     }
+    # Every page links the voice commands page (own language); the commands pages have a table of contents and the required sections
+    if ($h -notmatch ('<a href="[^"]*commands/' + $tl + '/">')) { Fail $p "no link to the commands page ($tl)" }
+    if ($p -match '^commands/([a-z]{2,3})/index\.html$') {
+        if ($h -notmatch '<nav class="toc"') { Fail $p 'commands page has no table of contents' }
+        foreach ($sec in 'how', 'chats', 'answer', 'music', 'time', 'more', 'not') {
+            if ($h -notmatch ('<h2 id="' + $sec + '">')) { Fail $p "commands section missing: $sec" }
+            if ($h -notmatch ('<a href="#' + $sec + '">')) { Fail $p "table of contents lacks: $sec" }
+        }
+        if ($h -match '\*\*|\]\(|\[\[|<!--TOC-->') { Fail $p 'unconverted Markdown or placeholder left in the commands page' }
+    }
     # Language switch
-    $isChooser = ($p -eq 'privacy/index.html' -or $p -eq 'terms/index.html' -or $p -eq 'guide/index.html')
+    $isChooser = ($p -eq 'privacy/index.html' -or $p -eq 'terms/index.html' -or $p -eq 'guide/index.html' -or $p -eq 'commands/index.html')
     foreach ($c in $codes) {
         if ($h -notmatch ('<a href="[^"]*' + $c + '/" lang="' + $c + '" hreflang="' + $c + '"')) { Fail $p "does not link language $c" }
     }

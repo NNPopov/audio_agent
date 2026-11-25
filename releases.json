@@ -1,6 +1,16 @@
 {
   "releases": [
     {
+      "version": "0.2.0-alpha.3",
+      "tag": "v0.2.0-alpha.3",
+      "date": "2026-11-25",
+      "channel": "alpha",
+      "file": "audio-agent-0.2.0-alpha.3.apk",
+      "sha256": "e6ce010e304787692d18bbe5037c4720fb67faefdee96d404349eb0745f111c8",
+      "size": 4989832,
+      "notes": "Timer through the model and short phrases up to 8 words; fast phrases after a past-chat search (more, previous results, open the second one); weather, time, timer and similar exchanges are marked as commands unless you say \u0027keep this in the chat\u0027."
+    },
+    {
       "version": "0.2.0-alpha.2",
       "tag": "v0.2.0-alpha.2",
       "date": "2026-11-23",

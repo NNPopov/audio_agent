@@ -5,7 +5,7 @@
 #   TERMS.md, TERMS.<code>.md the terms of use of the app builds (same Markdown subset; path in i18n termsFile)
 #   site/templates/*.html     page templates
 #   releases.json             published builds (written by tools/update-releases.ps1)
-# Output: index.html, <code>/index.html, guide/index.html, guide/<code>/index.html (from site/guide/<code>.md), privacy/index.html, privacy/<code>/index.html, terms/index.html, terms/<code>/index.html, assets/style.css
+# Output: index.html, commands/index.html, commands/<code>/index.html (from site/commands/<code>.md), <code>/index.html, guide/index.html, guide/<code>/index.html (from site/guide/<code>.md), privacy/index.html, privacy/<code>/index.html, terms/index.html, terms/<code>/index.html, assets/style.css
 # Works in Windows PowerShell 5.1 and PowerShell 7. No dependencies. Keep this file ASCII only.
 param()
 $ErrorActionPreference = 'Stop'
@@ -170,7 +170,8 @@ $contact = Esc $config.contact
 function Foot-Vars($code, $prefix) {
     $t = $langs[$code].t
     return @{ termsUrl = ($prefix + 'terms/' + $code + '/'); termsLink = (Esc $t.termsLink); licenseUrl = ('https://github.com/' + $repo + '/blob/main/LICENSE'); licenseLink = (Esc $t.licenseLink)
-        guideUrl = ($prefix + 'guide/' + $code + '/'); guideLink = (Esc $t.guideLink) }
+        guideUrl = ($prefix + 'guide/' + $code + '/'); guideLink = (Esc $t.guideLink)
+        commandsUrl = ($prefix + 'commands/' + $code + '/'); commandsLink = (Esc $t.commandsLink) }
 }
 function Merge-Vars($a, $b) { foreach ($k in $b.Keys) { $a[$k] = $b[$k] }; return $a }
 function Accept-Html($t, $termsUrl) { return (Esc $t.downloadAccept).Replace('%TERMS%', '<a href="' + $termsUrl + '">' + (Esc $t.termsLink) + '</a>') }
@@ -355,9 +356,24 @@ foreach ($c in $codes) {
     Write-Text "guide/$c/index.html" $page; [void]$written.Add("guide/$c/index.html")
 }
 
-# Language choosers for /privacy/, /terms/ and /guide/: JavaScript picks a language, <noscript> lists all of them.
+# Commands pages (source: site/commands/<code>.md): the same pattern as the guide, with its own table of contents.
+foreach ($c in $codes) {
+    $L = $langs[$c]; $t = $L.t
+    $cmdPath = Join-Path $Root ('site/commands/' + $c + '.md')
+    if (-not (Test-Path $cmdPath)) { throw "Commands file missing for ${c}: site/commands/$c.md" }
+    $conv = Convert-Markdown (Read-Text $cmdPath) $L.tableLabel $t.commandsToc
+    $main = Fill $tplPolicy @{ notice = ''; policyHtml = $conv.Html; homeUrl = "../../$c/"; policyBack = (Esc $L.policyBack) }
+    $page = Fill $tplLayout (Merge-Vars (Foot-Vars $c '../../') @{
+        lang = $c; dir = $L.dir; title = (Esc $conv.Title); description = (Esc $t.commandsDescription); prefix = '../../'; alternates = (Alternates '../')
+        skip = (Esc $t.skip); homeUrl = "../../$c/"; appName = (Esc $config.appName); langNav = (Esc $t.langNav)
+        langLinks = (Lang-Links $c '../'); main = $main; footer = (Esc $t.footer)
+    })
+    Write-Text "commands/$c/index.html" $page; [void]$written.Add("commands/$c/index.html")
+}
+
+# Language choosers for /privacy/, /terms/, /guide/ and /commands/: JavaScript picks a language, <noscript> lists all of them.
 $en = $langs['en']
-foreach ($sec in @(@{ dir = 'privacy'; key = 'privacyLink' }, @{ dir = 'terms'; key = 'termsLink' }, @{ dir = 'guide'; key = 'guideLink' })) {
+foreach ($sec in @(@{ dir = 'privacy'; key = 'privacyLink' }, @{ dir = 'terms'; key = 'termsLink' }, @{ dir = 'guide'; key = 'guideLink' }, @{ dir = 'commands'; key = 'commandsLink' })) {
     $key = $sec.key
     $heading = ($codes | ForEach-Object { $langs[$_].t.$key }) -join ' / '
     $choose = ($codes | ForEach-Object { $langs[$_].t.chooseLang }) -join ' / '

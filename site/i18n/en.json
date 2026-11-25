@@ -85,6 +85,9 @@
     "guideLink": "Read the user guide",
     "guideToc": "Contents",
     "guideDescription": "A step-by-step user guide for Audio Agent: what you need, install, keys, first conversation, remote control, commands, long conversations and documents, and troubleshooting.",
+    "commandsLink": "Voice commands",
+    "commandsToc": "Contents",
+    "commandsDescription": "Voice commands for Audio Agent: what you can say, which phrases run at once on the phone and which go through the AI model.",
     "useHeading": "How to use it",
     "useText": "Short version:",
     "use": [

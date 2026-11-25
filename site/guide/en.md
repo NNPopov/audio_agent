@@ -157,7 +157,9 @@ There are two kinds of controls, and the second is optional.
 - Voice commands: you just say them. Nothing to set up. You can speak normally, the exact words do not matter much, in English or Russian.
 - Buttons: actions that you can give to a button of a remote, a keyboard key or the on-screen button. You may give them, or not. Each of them also has a voice phrase or a button on the screen, so one button and your voice are enough.
 
-Short commands such as pause, next track, a timer or the time work at once. Other requests take a few seconds.
+Short commands such as pause, next track or the time work at once, without the AI model. A phrase counts as short when the recording lasts up to about 4.5 seconds or has at most 8 words, and the whole phrase matches a command. A timer set in any other wording, or with a correction ("set a timer for ten, no, for fifteen minutes"), goes through the model. Right after you search past chats, short phrases such as "show more", "previous results", "read the results again" and "open the second one" also work at once. Short requests such as the weather, the time or a timer are marked as commands and deleted from the chat after a day. To keep one, add "and put this in the chat". A phrase the phone does not recognise as a command is not lost: it goes to the AI model (LLM) on its own. Such requests take a few seconds.
+
+The page [Voice commands](../../commands/en/) lists every group of commands and tells which ones run at once and which go through the model.
 
 - Voice commands (say them)
   - Long chats and documents

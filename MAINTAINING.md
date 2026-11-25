@@ -7,10 +7,11 @@ Notes for the person who runs this repository (not for users). Users: see [READM
 
 | Path | What |
 |---|---|
-| `index.html`, `en/`, `ru/`, `guide/`, `privacy/`, `terms/`, `assets/` | The generated site (GitHub Pages serves the branch root). Do not edit by hand. |
+| `index.html`, `en/`, `ru/`, `guide/`, `commands/`, `privacy/`, `terms/`, `assets/` | The generated site (GitHub Pages serves the branch root). Do not edit by hand. |
 | `site/config.json` | `contact`, `repo` (`OWNER/REPO` on GitHub), `appName`, minimum Android, how many alpha builds to keep |
 | `site/i18n/<code>.json` | All home page texts of one language and the path of its policy file |
 | `site/guide/<code>.md` | The user guide of that language, written for this site (not copied from the app repository). Extra Markdown for it: `1. ` numbered lists, `## Title {#id}` headings (the id gives the anchor and a table of contents entry; the check expects the ids `need`, `install`, `keys`, `first`, `hands-free`, `say`, `chats`, `places`, `update`, `trouble`, `report`), a `[[toc]]` line (where the table of contents goes), `> text` (an alpha notice box) and the placeholders `[[androidmin]]`, `[[repo]]`, `[[contact]]` (filled from `site/config.json`). Keep it true to the app: check button names against the app's strings and `docs/commands.md` in the app repository |
+| `site/commands/<code>.md` | The voice commands page of that language (`commands/<code>/`, linked from the footer of every page and from the guide section `say`). Same Markdown subset and `[[toc]]` / `{#id}` rules as the guide; the check expects the ids `how`, `chats`, `answer`, `music`, `time`, `more`, `not`. Mark each group "Runs at once, without the model" or "Through the model" in bold. Keep it true to the app: sources are `docs/commands.md`, `CommandsRu.kt` and `CommandsEn.kt` in the app repository |
 | `site/policy/<code>.md` | The privacy policy of that language (copied from the app repo, `docs/privacy-policy*.md`) |
 | `LICENSE`, `TERMS.md`, `TERMS.<code>.md` | Licensing notice (CC BY 4.0 for the site text and the policy) and the terms of the app builds. The `TERMS` files are also the source of the `terms/` pages (path in `termsFile` of the i18n json) |
 | `site/templates/` | HTML templates: `layout`, `home`, `policy`, `chooser` |
@@ -27,7 +28,7 @@ All scripts run in Windows PowerShell 5.1 and PowerShell 7 and need nothing inst
 
 ```
 powershell -File tools/build-site.ps1       # regenerate the pages after any change in site/ or releases.json
-powershell -File tools/check-site.ps1       # structure check: headings, skip link, language, policy and guide links, guide table of contents and sections, no third-party requests
+powershell -File tools/check-site.ps1       # structure check: headings, skip link, language, policy, guide and commands links, guide and commands tables of contents and sections, no third-party requests
 ```
 
 Before the first publish: set `repo` and `contact` in `site/config.json`, run the build, commit. On GitHub: Settings > Pages > deploy from branch `main`, folder `/ (root)`. `.nojekyll` is already there.
@@ -50,8 +51,8 @@ Planned, not yet available (no placeholder pages are published): Chinese (`zh`),
 
 For a language code `xx`:
 
-1. Copy `site/i18n/en.json` to `site/i18n/xx.json`. Translate every string in `t` and `tableLabel`, `policyBack`, `policyNotice` (the line that says the English version is the original, translations are for reference), set `nativeName`, `dir` (`ltr` or `rtl`), `policyFile` (`site/policy/xx.md`) and `policyContactPlaceholder` (the placeholder sentence of that translation, so it can be replaced when the contact is set), `termsFile` (`TERMS.xx.md`), `termsNotice`, and the strings `termsLink`, `licenseLink`, `downloadAccept`, `licenseNote`, and the guide and home strings `guideLink`, `guideToc`, `guideDescription`, `installText`, `useHeading`, `useText`, `use`, `useGuideText`.
-2. Add the translated terms as `TERMS.xx.md`, the translated policy as `site/policy/xx.md` and the translated guide as `site/guide/xx.md` (same headings and ids as the English one). It uses the same Markdown subset as the English one: `#`, `##`, `###` headings, paragraphs, `- ` lists, pipe tables, `**bold**`, `[text](url)` and bare URLs. A link to `privacy-policy.xx.md` becomes a link to the language page.
+1. Copy `site/i18n/en.json` to `site/i18n/xx.json`. Translate every string in `t` and `tableLabel`, `policyBack`, `policyNotice` (the line that says the English version is the original, translations are for reference), set `nativeName`, `dir` (`ltr` or `rtl`), `policyFile` (`site/policy/xx.md`) and `policyContactPlaceholder` (the placeholder sentence of that translation, so it can be replaced when the contact is set), `termsFile` (`TERMS.xx.md`), `termsNotice`, and the strings `termsLink`, `licenseLink`, `downloadAccept`, `licenseNote`, and the guide, commands and home strings `guideLink`, `guideToc`, `guideDescription`, `commandsLink`, `commandsToc`, `commandsDescription`, `installText`, `useHeading`, `useText`, `use`, `useGuideText`.
+2. Add the translated terms as `TERMS.xx.md`, the translated policy as `site/policy/xx.md` and the translated guide as `site/guide/xx.md` and the translated commands page as `site/commands/xx.md` (same headings and ids as the English ones). It uses the same Markdown subset as the English one: `#`, `##`, `###` headings, paragraphs, `- ` lists, pipe tables, `**bold**`, `[text](url)` and bare URLs. A link to `privacy-policy.xx.md` becomes a link to the language page.
 3. Run `tools/build-site.ps1` and `tools/check-site.ps1`. Every page then links the new language, and `privacy/` offers it to browsers that prefer it. Commit.
 
-A language is published only when all four files exist; do not add one json without its policy.
+A language is published only when all five files exist (json, policy, terms, guide, commands); do not add one json without its policy.
