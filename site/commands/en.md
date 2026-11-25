@@ -8,7 +8,7 @@ This page answers one question: what can you say. The phrases are examples, the 
 
 There are two paths. Every group below says which one its phrases take.
 
-**Runs at once, without the model.** The phone recognises short phrases itself and runs them in a fraction of a second. The whole phrase must match. The recording must be no longer than about 4.5 seconds, or no longer than 8 words. "Please" and filler words such as "okay" or "well" are not counted. If the phone does not recognise a phrase as a command (it is longer, worded differently or has a correction), nothing is lost: it goes to the AI model (LLM) on its own, which carries out the request.
+**Runs at once, without the model.** The phone recognises short phrases itself and runs them in a fraction of a second. The whole phrase must match. The recording must be no longer than about 4.5 seconds, or no longer than 8 words. "Please" and filler words such as "okay" or "well" are not counted, wherever they are in the phrase. If the phone does not recognise a phrase as a command (it is longer, worded differently or has a correction), nothing is lost: it goes to the AI model (LLM) on its own, which carries out the request.
 
 **Through the model.** The AI model understands everything else. It accepts free wording, long sentences and corrections on the way, for example: "set a timer for ten, no, better for fifteen minutes". The answer takes a few seconds.
 
@@ -68,7 +68,7 @@ The screen language does not matter. English and Russian phrases always work, an
 - "More detail." For the whole chat. "Shorter."
 - "Repeat." "Say that again." Repeats the last answer.
 - "Skip the answer." "Skip the recording." "Stop reading." Cuts the spoken answer, the next one follows.
-- "Stop." "Stop the playback." Stops everything that sounds: the answer and the music.
+- "Stop." "Stop the playback." "Stop the playback, please." Stops everything that sounds: the answer and the music. The music queue is kept.
 - "Rephrase my last question." Deletes the last question with its answer so that you can ask it again.
 - "Switch to Qwen." "Switch to DeepSeek." "Switch to the thinking model." The model for this chat.
 
@@ -92,7 +92,9 @@ The music files must be on the phone.
 - "Next track." "Skip the song."
 - "Previous track."
 - "Pause." "Resume."
-- "Stop the music." "Play music." The last one works only if there is a queue.
+- "Stop the music." The queue, the track and the place are kept: "Resume" plays on from the same place.
+- "Play music." Works only if there is a queue.
+- "Clear the queue." The only voice command that empties the queue. On the Player tab, "Clear" does the same.
 - "Skip ahead 30 seconds." "Rewind 2 minutes." "Rewind half a minute."
 - "What's playing?"
 - "Louder." "A bit quieter." "Volume 50 percent." "Max volume."

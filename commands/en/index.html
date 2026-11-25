@@ -33,7 +33,7 @@
 <nav class="toc" aria-labelledby="toc-h"><h2 id="toc-h">Contents</h2><ol><li><a href="#how">How commands work</a></li><li><a href="#chats">Chats and memory</a></li><li><a href="#answer">The answer</a></li><li><a href="#music">Music</a></li><li><a href="#time">Time, timer, reminders, calendar</a></li><li><a href="#more">Messages, calls, routes, notes, weather and news</a></li><li><a href="#not">What is not a command</a></li></ol></nav>
 <h2 id="how">How commands work</h2>
 <p>There are two paths. Every group below says which one its phrases take.</p>
-<p><strong>Runs at once, without the model.</strong> The phone recognises short phrases itself and runs them in a fraction of a second. The whole phrase must match. The recording must be no longer than about 4.5 seconds, or no longer than 8 words. &quot;Please&quot; and filler words such as &quot;okay&quot; or &quot;well&quot; are not counted. If the phone does not recognise a phrase as a command (it is longer, worded differently or has a correction), nothing is lost: it goes to the AI model (LLM) on its own, which carries out the request.</p>
+<p><strong>Runs at once, without the model.</strong> The phone recognises short phrases itself and runs them in a fraction of a second. The whole phrase must match. The recording must be no longer than about 4.5 seconds, or no longer than 8 words. &quot;Please&quot; and filler words such as &quot;okay&quot; or &quot;well&quot; are not counted, wherever they are in the phrase. If the phone does not recognise a phrase as a command (it is longer, worded differently or has a correction), nothing is lost: it goes to the AI model (LLM) on its own, which carries out the request.</p>
 <p><strong>Through the model.</strong> The AI model understands everything else. It accepts free wording, long sentences and corrections on the way, for example: &quot;set a timer for ten, no, better for fifteen minutes&quot;. The answer takes a few seconds.</p>
 <p>The screen language does not matter. English and Russian phrases always work, and the answer comes in the language of your phrase. A phrase that mixes two languages (&quot;play next трек&quot;) goes to the model.</p>
 <p><strong>Service exchanges.</strong> Short requests such as the weather, the time, a timer, reminders, music and chat control are marked as commands. They are not kept in the brief summary and the memory of the chat, and they are deleted after a day. To keep such an exchange in the chat, add &quot;and put this in the chat&quot; to the phrase.</p>
@@ -88,7 +88,7 @@
 <li>&quot;More detail.&quot; For the whole chat. &quot;Shorter.&quot;</li>
 <li>&quot;Repeat.&quot; &quot;Say that again.&quot; Repeats the last answer.</li>
 <li>&quot;Skip the answer.&quot; &quot;Skip the recording.&quot; &quot;Stop reading.&quot; Cuts the spoken answer, the next one follows.</li>
-<li>&quot;Stop.&quot; &quot;Stop the playback.&quot; Stops everything that sounds: the answer and the music.</li>
+<li>&quot;Stop.&quot; &quot;Stop the playback.&quot; &quot;Stop the playback, please.&quot; Stops everything that sounds: the answer and the music. The music queue is kept.</li>
 <li>&quot;Rephrase my last question.&quot; Deletes the last question with its answer so that you can ask it again.</li>
 <li>&quot;Switch to Qwen.&quot; &quot;Switch to DeepSeek.&quot; &quot;Switch to the thinking model.&quot; The model for this chat.</li>
 </ul>
@@ -110,7 +110,9 @@
 <li>&quot;Next track.&quot; &quot;Skip the song.&quot;</li>
 <li>&quot;Previous track.&quot;</li>
 <li>&quot;Pause.&quot; &quot;Resume.&quot;</li>
-<li>&quot;Stop the music.&quot; &quot;Play music.&quot; The last one works only if there is a queue.</li>
+<li>&quot;Stop the music.&quot; The queue, the track and the place are kept: &quot;Resume&quot; plays on from the same place.</li>
+<li>&quot;Play music.&quot; Works only if there is a queue.</li>
+<li>&quot;Clear the queue.&quot; The only voice command that empties the queue. On the Player tab, &quot;Clear&quot; does the same.</li>
 <li>&quot;Skip ahead 30 seconds.&quot; &quot;Rewind 2 minutes.&quot; &quot;Rewind half a minute.&quot;</li>
 <li>&quot;What&#39;s playing?&quot;</li>
 <li>&quot;Louder.&quot; &quot;A bit quieter.&quot; &quot;Volume 50 percent.&quot; &quot;Max volume.&quot;</li>

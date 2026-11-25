@@ -1,6 +1,16 @@
 {
   "releases": [
     {
+      "version": "0.2.0-alpha.4",
+      "tag": "v0.2.0-alpha.4",
+      "date": "2026-11-25",
+      "channel": "alpha",
+      "file": "audio-agent-0.2.0-alpha.4.apk",
+      "sha256": "f0f3fd11b4c297b4ef92b54a0cb4d0c88fa21c2285d0bcc06ef569150b2de0c2",
+      "size": 5006944,
+      "notes": "Stop keeps the music queue and place (\u0027resume\u0027 plays on), new \u0027clear the queue\u0027 command; \u0027stop the playback, please\u0027 and other polite words anywhere in a short command; the assistant no longer says it will remember without saving; links to the program site, the guide and all voice commands in Settings."
+    },
+    {
       "version": "0.2.0-alpha.3",
       "tag": "v0.2.0-alpha.3",
       "date": "2026-11-25",
@@ -19,16 +29,6 @@
       "sha256": "fffa9296b9d519080c511d761232a80d22dffb0dcac1c565bd89382621b47098",
       "size": 4675488,
       "notes": "Second public alpha. Cross-chat memory (alpha, with a switch), icons on the tabs and buttons, text size choice, roomier chats list, command exchanges kept out of summaries, answer cut/refusal notices, new voice commands (skip answer, rephrase). Bring your own Qwen and DeepSeek keys."
-    },
-    {
-      "version": "0.2.0-alpha.1",
-      "tag": "v0.2.0-alpha.1",
-      "date": "2026-11-22",
-      "channel": "alpha",
-      "file": "audio-agent-0.2.0-alpha.1.apk",
-      "sha256": "8bac60e0ed36853f1e639feb3a5cf8e4d22025ab22332c92e9ea4fe578f061c3",
-      "size": 4507375,
-      "notes": "First public alpha. Voice assistant with fob, keyboard and screen button control; bring your own Qwen and DeepSeek keys."
     }
   ]
 }
