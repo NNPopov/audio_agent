@@ -51,16 +51,17 @@
 <p><strong>Through the model.</strong></p>
 <ul>
 <li>&quot;Find the chat about Kafka.&quot; Then &quot;open chat&quot; and its name.</li>
-<li>&quot;What did we decide about the signing key?&quot; &quot;In which chat did I talk about Docker?&quot; The search looks at your own words, the chat titles and the brief summaries, not at the assistant&#39;s answers. It reads up to three results at a time, up to 15 in all.</li>
+<li>&quot;What did we decide about the signing key?&quot; &quot;In which chat did I talk about Docker?&quot; The search looks at your own words, the chat titles and the brief summaries, not at the assistant&#39;s answers. It reads up to three results at a time, up to 15 in all. The answer starts with how many were found, then each result in order with when it was and its topic; a chat whose title has your word comes first. When nothing is found it says so in one line: rephrase the question or name the date.</li>
 <li>&quot;Split the chat, the last three questions into a new chat.&quot; &quot;Split the chat from where we started talking about Docker.&quot;</li>
 </ul>
-<p><strong>Right after a search, without the model.</strong> These phrases work only right after a search, for up to 10 minutes and until you say something else.</p>
+<p><strong>Right after a search, without the model.</strong> &quot;More&quot;, &quot;previous results&quot; and &quot;read the results again&quot; work only right after a search, for up to 10 minutes and until you say something else.</p>
 <ul>
 <li>&quot;Show more.&quot; &quot;More.&quot; Reads the next three.</li>
 <li>&quot;Previous results.&quot; One page back.</li>
 <li>&quot;Read the results again.&quot; The same page once more.</li>
 <li>Each result sounds like this: &quot;First: chat title, November 12&quot;, and at the end how many are left.</li>
-<li>&quot;Open the second one.&quot; &quot;Open the second chat.&quot; Opens a chat from those just read.</li>
+<li>&quot;Open the second one.&quot; &quot;Go to the first result.&quot; &quot;Switch to the third.&quot; &quot;Open the first found.&quot; Opens that chat of those just read. &quot;Fourth&quot; and &quot;fifth&quot; count in the whole list.</li>
+<li>The found list is kept until your next search (at most an hour, only in memory), also after you opened a chat or asked something else. Opened the wrong chat? Say &quot;go to the second search result&quot; and it opens without a new search. &quot;More&quot; and &quot;previous results&quot; still work only for the first 10 minutes and until you say something else.</li>
 </ul>
 <h3>Change of topic</h3>
 <p><strong>Runs at once, without the model.</strong> When the talk drifts to another subject, the assistant offers once to start a new chat. Agree with &quot;yes, open a new chat&quot; or &quot;yes, I agree&quot;. A bare &quot;yes&quot; is not enough. Answer soon after the offer.</p>

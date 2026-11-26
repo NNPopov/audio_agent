@@ -31,15 +31,16 @@ The screen language does not matter. English and Russian phrases always work, an
 
 **Through the model.**
 - "Find the chat about Kafka." Then "open chat" and its name.
-- "What did we decide about the signing key?" "In which chat did I talk about Docker?" The search looks at your own words, the chat titles and the brief summaries, not at the assistant's answers. It reads up to three results at a time, up to 15 in all.
+- "What did we decide about the signing key?" "In which chat did I talk about Docker?" The search looks at your own words, the chat titles and the brief summaries, not at the assistant's answers. It reads up to three results at a time, up to 15 in all. The answer starts with how many were found, then each result in order with when it was and its topic; a chat whose title has your word comes first. When nothing is found it says so in one line: rephrase the question or name the date.
 - "Split the chat, the last three questions into a new chat." "Split the chat from where we started talking about Docker."
 
-**Right after a search, without the model.** These phrases work only right after a search, for up to 10 minutes and until you say something else.
+**Right after a search, without the model.** "More", "previous results" and "read the results again" work only right after a search, for up to 10 minutes and until you say something else.
 - "Show more." "More." Reads the next three.
 - "Previous results." One page back.
 - "Read the results again." The same page once more.
 - Each result sounds like this: "First: chat title, November 12", and at the end how many are left.
-- "Open the second one." "Open the second chat." Opens a chat from those just read.
+- "Open the second one." "Go to the first result." "Switch to the third." "Open the first found." Opens that chat of those just read. "Fourth" and "fifth" count in the whole list.
+- The found list is kept until your next search (at most an hour, only in memory), also after you opened a chat or asked something else. Opened the wrong chat? Say "go to the second search result" and it opens without a new search. "More" and "previous results" still work only for the first 10 minutes and until you say something else.
 
 ### Change of topic
 
